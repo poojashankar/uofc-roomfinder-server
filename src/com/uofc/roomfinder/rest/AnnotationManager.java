@@ -16,6 +16,7 @@ import com.uofc.roomfinder.dao.AnnotationDAOImpl;
 import com.uofc.roomfinder.entities.Annotation;
 import com.uofc.roomfinder.entities.AnnotationPackage;
 import com.uofc.roomfinder.entities.Coordinate;
+import com.uofc.roomfinder.util.gson.AnnotationJsonSerialzer;
 
 @Path("/annotation")
 public class AnnotationManager {
@@ -26,23 +27,24 @@ public class AnnotationManager {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/id/{annotationId}")
 	public String getAnnotationById(@PathParam("annotationId") long annotationId) {
-
+		// get annotation from db
 		Annotation annotation = annotationDao.findByID(annotationId);
-		Gson gson = new Gson();
-		String json = gson.toJson(annotation);
 
-		return json;
+		// get json representation ob object
+		return annotation.toJsonString();
 	}
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/ids/{annotationIds}")
-	public String getAnnotationByIds(@PathParam("annotationIds") String annotationIds) {
+	public String getAnnotationByIds(
+			@PathParam("annotationIds") String annotationIds) {
 		System.out.println(annotationIds);
 
 		// Split into long array
 		String[] arrAnnotationIds = annotationIds.split(",");
-		System.out.println(arrAnnotationIds[0] + " - length: " + arrAnnotationIds.length);
+		System.out.println(arrAnnotationIds[0] + " - length: "
+				+ arrAnnotationIds.length);
 
 		Vector<Long> vecLong = new Vector<Long>();
 		for (String annoId : arrAnnotationIds) {
@@ -54,7 +56,7 @@ public class AnnotationManager {
 
 		// get annotation package
 		AnnotationPackage annotationPackage = annotationDao.findByIds(arrLong);
-						
+
 		return annotationPackage.toJsonString();
 	}
 

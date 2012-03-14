@@ -10,7 +10,7 @@ import org.junit.Test;
 public class AnnotationTest {
 
 	private final String JSON_STRING = "{" + "\"id\": \"2821\"," + "\"lat\": \"46.49396\"," + "\"lng\": \"11.2088\"," + "\"elevation\": \"1865\","
-			+ "\"title\": \"Gantkofel\"," + "\"distance\": \"9.771\"," + "\"has_detail_page\": \"0\"," + "\"webpage\": \"\"" + "}";
+			+ "\"title\": \"Gantkofel\"," + "\"distance\": \"9.771\"," + "\"has_detail_page\": \"0\"," + "\"webpage\": \"\"" + ",\"timestamp\":\"14/Mar/2012 16:42:17\"}";
 
 	private final Long ID = 2821L;
 	private final String TEXT = "Gantkofel";
@@ -25,7 +25,7 @@ public class AnnotationTest {
 	
 	@Test
 	public void testGetJSON() {
-		Annotation newAnno = new Annotation(ID, LATITUDE, LONGITUDE, ALTITUDE, TEXT, DISTANCE, HAS_DETAIL_PAGE, WEBPAGE, new Date());
+		Annotation newAnno = new Annotation(ID, LATITUDE, LONGITUDE, ALTITUDE, TEXT, DISTANCE, HAS_DETAIL_PAGE, WEBPAGE, new Date(112,2,14,16,42,17));
 		Assert.assertEquals(JSON_STRING.replace(" ", ""), newAnno.toJsonString().replace("\n", "").replace(" ", ""));
 	}
 

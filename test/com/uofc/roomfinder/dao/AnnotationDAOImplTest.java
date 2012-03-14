@@ -28,6 +28,33 @@ public class AnnotationDAOImplTest {
 		final String LONGITUDE = "x";
 		final String LATITUDE = "y";
 		final String ALTITUDE = "z";
+		final String DISTANCE = "1.59";
+		final int HAS_DETAIL_PAGE = 1;
+		final String WEBPAGE = "www.google.de";
+		
+		Annotation newAnno = new Annotation();
+		newAnno.setText(TEXT);
+		newAnno.setLongitude(LONGITUDE);
+		newAnno.setLatitude(LATITUDE);
+		newAnno.setElevation(ALTITUDE);
+		newAnno.setDistance(DISTANCE);
+		newAnno.setHas_detail_page(HAS_DETAIL_PAGE);
+		newAnno.setWebpage(WEBPAGE);
+		
+		//save it
+		annotationDAO.save(newAnno);
+		
+		//method has to set an ID (auto increment by DB)
+		assertNotNull(newAnno.getId());
+		assertTrue(newAnno.getId() > 0);		
+	}
+	
+	@Test
+	public void testSaveAnnotationAdv() {
+		final String TEXT = "test_SAVE_TEST";
+		final String LONGITUDE = "x";
+		final String LATITUDE = "y";
+		final String ALTITUDE = "z";
 		
 		Annotation newAnno = new Annotation();
 		newAnno.setText(TEXT);
