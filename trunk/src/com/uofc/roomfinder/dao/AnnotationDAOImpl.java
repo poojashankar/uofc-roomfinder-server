@@ -35,8 +35,8 @@ public class AnnotationDAOImpl extends GenericDAOImpl<Annotation, Long>	implemen
 			conn = ConnectionFactory.getInstance().getConnection();
 
 			// insert sql
-			String sql = "INSERT INTO tbl_annotations (text, latitude, longitude, altitude)"
-					+ "VALUES(?, ?, ?, ?)";
+			String sql = "INSERT INTO tbl_annotations (text, latitude, longitude, elevation, distance, has_detail_page, webpage)"
+					+ "VALUES(?, ?, ?, ?, ?, ?, ?)";
 
 			// return generated keys -> to retrieve the autoincrement id
 			prepStmt = conn.prepareStatement(sql,
@@ -47,6 +47,9 @@ public class AnnotationDAOImpl extends GenericDAOImpl<Annotation, Long>	implemen
 			prepStmt.setString(2, annotation.getLatitude());
 			prepStmt.setString(3, annotation.getLongitude());
 			prepStmt.setString(4, annotation.getElevation());
+			prepStmt.setString(5, (annotation.getDistance()==null) ? "0" : annotation.getDistance());
+			prepStmt.setInt(6, annotation.getHas_detail_page());
+			prepStmt.setString(7, (annotation.getWebpage()==null) ? "0" : annotation.getWebpage());
 
 			// exec stmt
 			prepStmt.executeUpdate();

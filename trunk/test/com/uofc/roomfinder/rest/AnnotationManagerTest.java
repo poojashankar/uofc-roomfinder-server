@@ -12,11 +12,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.test.framework.JerseyTest;
 import com.sun.jersey.test.framework.WebAppDescriptor;
 import com.uofc.roomfinder.entities.Annotation;
 import com.uofc.roomfinder.entities.AnnotationPackage;
+import com.uofc.roomfinder.util.gson.AnnotationJsonDeserializer;
 
 public class AnnotationManagerTest extends JerseyTest {
 
@@ -36,7 +38,7 @@ public class AnnotationManagerTest extends JerseyTest {
 
 	@Test
 	public void getJsonById() {
-		final long ID = 55;
+		final long ID = 195;
 		final String TEXT = "test_SAVE_TEST";
 		final String LONGITUDE = "x";
 		final String LATITUDE = "y";
@@ -45,38 +47,54 @@ public class AnnotationManagerTest extends JerseyTest {
 		WebResource webResource = resource();
 
 		String responseMsg = webResource.path("annotation/id/" + ID).accept(MediaType.APPLICATION_JSON).get(String.class);
-		System.out.println(responseMsg);
-		Annotation anno = new Gson().fromJson(responseMsg, Annotation.class);
+		System.out.println("json of id 195: " + responseMsg);
+		Annotation anno = new Annotation(responseMsg);
 
 		// Assert.assertEquals(5,anno.getId());
-		Assert.assertEquals(TEXT, anno.getText());
-		Assert.assertEquals(LONGITUDE, anno.getLongitude());
-		Assert.assertEquals(LATITUDE, anno.getLatitude());
-		Assert.assertEquals(ALTITUDE, anno.getElevation());
+		assertEquals(TEXT, anno.getText());
+		assertEquals(LONGITUDE, anno.getLongitude());
+		assertEquals(LATITUDE, anno.getLatitude());
+		assertEquals(ALTITUDE, anno.getElevation());
 
 	}
 
 	@Test
 	public void getJsonByIdsByOneId() throws IOException {
-		final long ID = 55;
+		final Long ID = 195l;
 		final String TEXT = "test_SAVE_TEST";
 		final String LONGITUDE = "x";
 		final String LATITUDE = "y";
 		final String ALTITUDE = "z";
 
 		WebResource webResource = resource();
-		//System.in.read();
-		
+
 		String responseMsg = webResource.path("annotation/ids/" + ID).accept(MediaType.APPLICATION_JSON).get(String.class);
-		System.out.println(responseMsg);
-		AnnotationPackage annoPackage = new Gson().fromJson(responseMsg, AnnotationPackage.class);
+		// System.out.println(responseMsg);
+		AnnotationPackage annoPackage = new AnnotationPackage(responseMsg);
 
-		// Assert.assertEquals(5,anno.getId());
-		Assert.assertEquals(TEXT, annoPackage.getResults().getFirst().getText());
-		Assert.assertEquals(LONGITUDE, annoPackage.getResults().getFirst().getLongitude());
-		Assert.assertEquals(LATITUDE, annoPackage.getResults().getFirst().getLatitude());
-		Assert.assertEquals(ALTITUDE, annoPackage.getResults().getFirst().getElevation());
+		assertEquals(ID, annoPackage.getResults().getFirst().getId());
+		assertEquals(TEXT, annoPackage.getResults().getFirst().getText());
+		assertEquals(LONGITUDE, annoPackage.getResults().getFirst().getLongitude());
+		assertEquals(LATITUDE, annoPackage.getResults().getFirst().getLatitude());
+		assertEquals(ALTITUDE, annoPackage.getResults().getFirst().getElevation());
 
+	}
+
+	@Test
+	public void testAnnotationPackageDeserializer() {
+		final String JSON_TEST = "{ " + "  \"status\": \"OK\", " + "  \"num_results\": 2, " + "  \"results\": [ " + "    { " + "      \"id\": \"165\", "
+				+ "      \"lat\": \"y\", " + "      \"lng\": \"x\", " + "      \"elevation\": \"z\", " + "      \"title\": \"test_SAVE_TEST\", "
+				+ "      \"distance\": \"0\", " + "      \"has_detail_page\": \"0\", " + "      \"webpage\": \"www.google.de\", "
+				+ "      \"timestamp\": \"14/Mar/2012 00:00:00\" " + "    }, " + "    { " + "      \"id\": \"166\", " + "      \"lat\": \"y\", "
+				+ "      \"lng\": \"x\", " + "      \"elevation\": \"z\", " + "      \"title\": \"test_ID_TEST1\", " + "      \"distance\": \"0\", "
+				+ "      \"has_detail_page\": \"0\", " + "      \"webpage\": \"www.google.de\", " + "      \"timestamp\": \"14/Mar/2012 00:00:00\" " + "    } "
+				+ "  ] " + "}";
+
+		Gson gson = new GsonBuilder().registerTypeAdapter(Annotation.class, new AnnotationJsonDeserializer()).serializeNulls().create();
+		AnnotationPackage annoPackage = gson.fromJson(JSON_TEST, AnnotationPackage.class);
+		assertEquals(2, annoPackage.getNum_results());
+		assertEquals("test_ID_TEST1", annoPackage.getResults().get(1).getText());
+		assertEquals("0", annoPackage.getResults().get(0).getDistance());
 	}
 
 }

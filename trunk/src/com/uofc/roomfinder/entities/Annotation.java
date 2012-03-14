@@ -9,7 +9,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.uofc.roomfinder.util.gson.AnnotationAdapter;
+import com.uofc.roomfinder.util.gson.AnnotationJsonDeserializer;
+import com.uofc.roomfinder.util.gson.AnnotationJsonSerialzer;
 
 /**
  * 
@@ -72,7 +73,10 @@ public class Annotation implements Serializable {
 		this.setTimestamp(rs.getDate("TIMESTAMP"));
 		this.setLatitude(rs.getString("LATITUDE"));
 		this.setLongitude(rs.getString("LONGITUDE"));
-		this.setElevation(rs.getString("ALTITUDE"));
+		this.setElevation(rs.getString("ELEVATION"));
+		this.setDistance(rs.getString("DISTANCE"));
+		this.setHas_detail_page(rs.getInt("HAS_DETAIL_PAGE"));
+		this.setWebpage(rs.getString("WEBPAGE"));
 	}
 
 	/**
@@ -83,12 +87,24 @@ public class Annotation implements Serializable {
 	 */
 	public Annotation(String jsonString) {
 		this();
-		// TODO
 
+		// deserialze JSON String
+		Gson gson = new GsonBuilder().registerTypeAdapter(Annotation.class, new AnnotationJsonDeserializer()).serializeNulls().create();
+		Annotation newAnno = gson.fromJson(jsonString, Annotation.class);
+
+		this.id = newAnno.getId();
+		this.latitude = newAnno.getLatitude();
+		this.longitude = newAnno.getLongitude();
+		this.elevation = newAnno.getElevation();
+		this.text = newAnno.getText();
+		this.distance = newAnno.getDistance();
+		this.has_detail_page = newAnno.getHas_detail_page();
+		this.webpage = newAnno.getWebpage();
+		this.timestamp = (newAnno.getTimestamp()==null)?null:newAnno.getTimestamp();
 	}
 
 	public String toJsonString() {
-		Gson gson = new GsonBuilder().registerTypeAdapter(Annotation.class, new AnnotationAdapter()).setPrettyPrinting().create();
+		Gson gson = new GsonBuilder().registerTypeAdapter(Annotation.class, new AnnotationJsonSerialzer()).setPrettyPrinting().serializeNulls().create();
 		String json = gson.toJson(this);
 
 		return json;

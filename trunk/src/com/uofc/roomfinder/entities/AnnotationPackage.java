@@ -2,7 +2,11 @@ package com.uofc.roomfinder.entities;
 
 import java.util.LinkedList;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.Expose;
+import com.uofc.roomfinder.util.gson.AnnotationJsonDeserializer;
+import com.uofc.roomfinder.util.gson.AnnotationJsonSerialzer;
 
 public class AnnotationPackage {
 	private final static String STATUS_OK = "OK";
@@ -17,6 +21,28 @@ public class AnnotationPackage {
 		super();
 		results = new LinkedList<Annotation>();
 		status = STATUS_OK;		
+	}
+	
+	/**
+	 * converts JSON string into an annotation object
+	 * 
+	 * @param jsonString
+	 *            JSON representation of object
+	 */
+	public AnnotationPackage(String jsonString) {
+		this();
+
+		// deserialize JSON String
+		Gson gson = new GsonBuilder().registerTypeAdapter(Annotation.class, new AnnotationJsonDeserializer()).serializeNulls().create();
+		AnnotationPackage newAnnoPackage = gson.fromJson(jsonString, AnnotationPackage.class);
+
+		this.num_results = newAnnoPackage.getNum_results();
+		this.status = newAnnoPackage.getStatus();
+		
+		for(Annotation anno : newAnnoPackage.getResults()){
+			this.addAnnotation(anno);
+		}
+		
 	}
 	
 	//getters & setters
@@ -41,10 +67,13 @@ public class AnnotationPackage {
 		this.results.add(annotation);
 		this.num_results = this.results.size();
 	}
+	
 
 	public String toJsonString() {
-		// TODO Auto-generated method stub
-		return null;
+		Gson gson = new GsonBuilder().registerTypeAdapter(Annotation.class, new AnnotationJsonSerialzer()).setPrettyPrinting().serializeNulls().create();
+		String json = gson.toJson(this);
+
+		return json;
 	}
 	
 	
