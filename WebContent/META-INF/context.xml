@@ -4,8 +4,8 @@
 
 <Resource name="jdbc/roomfinder" auth="Container" type="javax.sql.DataSource"
                maxActive="100" maxIdle="30" maxWait="10000"
-               username="root" password="root" driverClassName="com.mysql.jdbc.Driver"
-               url="jdbc:mysql://localhost:3306/roomfinder"/>
+               username="root" password="" driverClassName="com.mysql.jdbc.Driver"
+               url="jdbc:mysql://10.11.27.59:3306/roomfinder"/>
 
 <!-- 
    <Resource name="jdbc/mysql" auth="Container"
