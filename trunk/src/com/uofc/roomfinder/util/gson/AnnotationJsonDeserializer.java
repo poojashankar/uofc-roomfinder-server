@@ -23,6 +23,7 @@ public class AnnotationJsonDeserializer implements JsonDeserializer<Annotation> 
 
 	public static final SimpleDateFormat format = new SimpleDateFormat("dd/MMM/yyyy HH:mm:ss");
 
+	@Override
 	public Annotation deserialize(JsonElement json, Type arg1, JsonDeserializationContext arg2) throws JsonParseException {
 
 		JsonObject jsonObj = json.getAsJsonObject();

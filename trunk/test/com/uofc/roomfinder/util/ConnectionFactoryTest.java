@@ -4,10 +4,6 @@ import static org.junit.Assert.*;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Enumeration;
-import java.util.Properties;
-import  org.apache.commons.dbutils.DbUtils;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -41,5 +37,5 @@ public class ConnectionFactoryTest {
 			fail("cannot open sql connection");
 		}
 	}
-	
+
 }

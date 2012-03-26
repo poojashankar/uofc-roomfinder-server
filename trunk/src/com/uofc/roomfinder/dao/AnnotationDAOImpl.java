@@ -98,6 +98,7 @@ public class AnnotationDAOImpl extends GenericDAOImpl<Annotation, Long> implemen
 	/**
 	 * returns a single Annotation with given ID
 	 */
+	@Override
 	public Annotation findByID(Long id) {
 
 		Annotation annotation = null;
@@ -139,8 +140,8 @@ public class AnnotationDAOImpl extends GenericDAOImpl<Annotation, Long> implemen
 	 * 
 	 * @returns an annotation package with all those annotations
 	 */
+	@Override
 	public AnnotationPackage findByIds(Long... ids) {
-		System.out.println("length of IDs: " + ids.length);
 		if (ids.length < 1)
 			return null;
 
@@ -162,12 +163,10 @@ public class AnnotationDAOImpl extends GenericDAOImpl<Annotation, Long> implemen
 			conn = ConnectionFactory.getInstance().getConnection();
 
 			String sql = "SELECT * FROM tbl_annotations WHERE id IN (" + strQuestionMarks + ")";
-			System.out.println(sql);
 			prepStmt = conn.prepareStatement(sql);
 
 			// set every ID
 			int i = 1;
-			System.out.println("ID1: " + ids[0]);
 
 			for (Long id : ids) {
 				prepStmt.setLong(i++, id);
@@ -199,6 +198,7 @@ public class AnnotationDAOImpl extends GenericDAOImpl<Annotation, Long> implemen
 	 * 
 	 * @returns an annotation package with all those annotations
 	 */
+	@Override
 	public AnnotationPackage findByCategory(String category) {
 		Annotation annotation = null;
 		AnnotationPackage annotationPackage = new AnnotationPackage();
@@ -211,7 +211,6 @@ public class AnnotationDAOImpl extends GenericDAOImpl<Annotation, Long> implemen
 			conn = ConnectionFactory.getInstance().getConnection();
 
 			String sql = "SELECT * FROM tbl_annotations AS a, tbl_annotation_categories AS ac WHERE a.cat = ac.id AND ac.name = ?";
-			System.out.println(sql);
 			prepStmt = conn.prepareStatement(sql);
 			prepStmt.setString(1, category);
 
@@ -237,6 +236,7 @@ public class AnnotationDAOImpl extends GenericDAOImpl<Annotation, Long> implemen
 	}
 	
 
+	@Override
 	public List<Annotation> findNearbyAnnotations(Coordinate currentPosition) {
 		// TODO Auto-generated method stub
 		return null;

@@ -1,13 +1,13 @@
 package com.uofc.roomfinder.rest;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 
 import javax.ws.rs.core.MediaType;
 
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -28,11 +28,13 @@ public class AnnotationManagerTest extends JerseyTest {
 		super(new WebAppDescriptor.Builder("com.uofc.roomfinder.rest").contextPath("").build());
 	}
 
+	@Override
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
 	}
 
+	@Override
 	@After
 	public void tearDown() throws Exception {
 		super.tearDown();
@@ -48,7 +50,6 @@ public class AnnotationManagerTest extends JerseyTest {
 		WebResource webResource = resource();
 
 		String responseMsg = webResource.path("annotation/id/" + ID).accept(MediaType.APPLICATION_JSON).get(String.class);
-		System.out.println("json of id : " + responseMsg);
 		Annotation anno = new Annotation(responseMsg);
 
 		// Assert.assertEquals(5,anno.getId());

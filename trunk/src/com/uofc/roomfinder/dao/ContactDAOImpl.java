@@ -77,8 +77,6 @@ public class ContactDAOImpl implements ContactDAO {
 		return contacts;
 	}
 
-	
-	
 	/**
 	 * set up environment to access the server
 	 * 
@@ -94,7 +92,6 @@ public class ContactDAOImpl implements ContactDAO {
 		return new InitialDirContext(env);
 	}
 
-	
 	/**
 	 * searches in the public UofC LDAP for contacts
 	 * 
@@ -116,7 +113,7 @@ public class ContactDAOImpl implements ContactDAO {
 
 			// over all contacts
 			while (enumeration.hasMore()) {
-				SearchResult result = (SearchResult) enumeration.next();
+				SearchResult result = enumeration.next();
 				Attributes attribs = result.getAttributes();
 
 				// get infos and add it to result list

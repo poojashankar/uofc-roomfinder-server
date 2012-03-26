@@ -7,8 +7,6 @@ import java.util.Date;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
 import com.uofc.roomfinder.util.gson.AnnotationJsonDeserializer;
 import com.uofc.roomfinder.util.gson.AnnotationJsonSerialzer;
 
@@ -18,10 +16,8 @@ import com.uofc.roomfinder.util.gson.AnnotationJsonSerialzer;
  * 
  * the JSON representation of this class should look like: { "id": "2821", "lat": "46.49396", "lng": "11.2088", "elevation": "1865", "title": "Gantkofel",
  * "distance": "9.771", "has_detail_page": "0", "webpage": "" },
- * 
- * 
- * @author lauteb
- * 
+ *  
+ * @author lauteb 
  */
 public class Annotation implements Serializable {
 

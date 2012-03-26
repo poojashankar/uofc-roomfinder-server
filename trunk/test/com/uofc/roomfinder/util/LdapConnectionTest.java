@@ -7,9 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import javax.naming.Context;
-import javax.naming.InitialContext;
 import javax.naming.NamingEnumeration;
-import javax.naming.NamingException;
 import javax.naming.NameAlreadyBoundException;
 import javax.naming.directory.*;
 
@@ -42,24 +40,24 @@ public class LdapConnectionTest {
 		try {
 			// obtain initial directory context using the environment
 			DirContext ctx = new InitialDirContext(env);
-	
+
 			SearchControls ctrl = new SearchControls();
-            ctrl.setSearchScope(SearchControls.SUBTREE_SCOPE);
-            
-            NamingEnumeration<SearchResult> enumeration = ctx.search( "" , "cn=Frank*Maurer", ctrl);
-            String answer = "";
-            
-            while (enumeration.hasMore()) {
-                SearchResult result = (SearchResult) enumeration.next();
-                Attributes attribs = result.getAttributes();
-                NamingEnumeration<? extends Attribute> values = attribs.getAll();
-                while (values.hasMore()) {                 
-                  answer += values.next().toString();
-                }
-            }
+			ctrl.setSearchScope(SearchControls.SUBTREE_SCOPE);
+
+			NamingEnumeration<SearchResult> enumeration = ctx.search("", "cn=Frank*Maurer", ctrl);
+			String answer = "";
+
+			while (enumeration.hasMore()) {
+				SearchResult result = enumeration.next();
+				Attributes attribs = result.getAttributes();
+				NamingEnumeration<? extends Attribute> values = attribs.getAll();
+				while (values.hasMore()) {
+					answer += values.next().toString();
+				}
+			}
 			Assert.assertTrue(answer.contains("Frank Maurer"));
 			Assert.assertTrue(answer.contains("ICT550"));
-            
+
 		} catch (NameAlreadyBoundException nabe) {
 			fail();
 			System.err.println("value has already been bound!");

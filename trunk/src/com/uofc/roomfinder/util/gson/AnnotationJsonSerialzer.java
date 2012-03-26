@@ -5,7 +5,6 @@ import java.text.SimpleDateFormat;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import com.uofc.roomfinder.entities.Annotation;
@@ -22,6 +21,7 @@ public class AnnotationJsonSerialzer implements JsonSerializer<Annotation> {
 
 	public static final SimpleDateFormat format = new SimpleDateFormat("dd/MMM/yyyy HH:mm:ss");
 
+	@Override
 	public JsonElement serialize(Annotation src, Type typeOfSrc, JsonSerializationContext context) {
 
 		JsonObject obj = new JsonObject();
