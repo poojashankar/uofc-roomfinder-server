@@ -15,6 +15,7 @@ public interface AnnotationDAO extends GenericDAO<Annotation, Long> {
     public Annotation findByID(Long id);
     public List<Annotation> findNearbyAnnotations(Coordinate currentPosition);
     public AnnotationPackage findByIds(Long... ids);
+    public AnnotationPackage findByCategory(String category);
 	
     
 }

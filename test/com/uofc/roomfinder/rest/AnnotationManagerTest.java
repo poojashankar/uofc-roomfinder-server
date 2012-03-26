@@ -22,6 +22,8 @@ import com.uofc.roomfinder.util.gson.AnnotationJsonDeserializer;
 
 public class AnnotationManagerTest extends JerseyTest {
 
+	final Long ID = 2l;
+	
 	public AnnotationManagerTest() throws Exception {
 		super(new WebAppDescriptor.Builder("com.uofc.roomfinder.rest").contextPath("").build());
 	}
@@ -38,7 +40,6 @@ public class AnnotationManagerTest extends JerseyTest {
 
 	@Test
 	public void getJsonById() {
-		final long ID = 195;
 		final String TEXT = "test_SAVE_TEST";
 		final String LONGITUDE = "x";
 		final String LATITUDE = "y";
@@ -47,7 +48,7 @@ public class AnnotationManagerTest extends JerseyTest {
 		WebResource webResource = resource();
 
 		String responseMsg = webResource.path("annotation/id/" + ID).accept(MediaType.APPLICATION_JSON).get(String.class);
-		System.out.println("json of id 195: " + responseMsg);
+		System.out.println("json of id : " + responseMsg);
 		Annotation anno = new Annotation(responseMsg);
 
 		// Assert.assertEquals(5,anno.getId());
@@ -60,7 +61,7 @@ public class AnnotationManagerTest extends JerseyTest {
 
 	@Test
 	public void getJsonByIdsByOneId() throws IOException {
-		final Long ID = 195l;
+		
 		final String TEXT = "test_SAVE_TEST";
 		final String LONGITUDE = "x";
 		final String LATITUDE = "y";
@@ -96,5 +97,16 @@ public class AnnotationManagerTest extends JerseyTest {
 		assertEquals("test_ID_TEST1", annoPackage.getResults().get(1).getText());
 		assertEquals("0", annoPackage.getResults().get(0).getDistance());
 	}
+	
+	@Test
+	public void getAnnoPackageByCategory() throws IOException {
+		WebResource webResource = resource();
+
+		String responseMsg = webResource.path("annotation/cat/buildings").accept(MediaType.APPLICATION_JSON).get(String.class);
+
+		assertTrue(responseMsg.contains("MacEwan Hall"));
+		//assertTrue(responseMsg.contains("Earth Science"));
+	}
+	
 
 }

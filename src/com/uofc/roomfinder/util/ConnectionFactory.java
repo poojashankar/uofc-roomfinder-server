@@ -21,7 +21,7 @@ public class ConnectionFactory {
 	
 
 	final String USER_NAME = "root"; 
-	final String PASSWORD = "root"; 
+	final String PASSWORD = ""; 
 	final String URL = "jdbc:mysql://localhost:3306/roomfinder"; 
 	final String DRIVER_CLASS_NAME = "com.mysql.jdbc.Driver";
 

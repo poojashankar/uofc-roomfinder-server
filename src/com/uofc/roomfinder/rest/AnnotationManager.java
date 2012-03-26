@@ -37,14 +37,12 @@ public class AnnotationManager {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/ids/{annotationIds}")
-	public String getAnnotationByIds(
-			@PathParam("annotationIds") String annotationIds) {
+	public String getAnnotationByIds(@PathParam("annotationIds") String annotationIds) {
 		System.out.println(annotationIds);
 
 		// Split into long array
 		String[] arrAnnotationIds = annotationIds.split(",");
-		System.out.println(arrAnnotationIds[0] + " - length: "
-				+ arrAnnotationIds.length);
+		System.out.println(arrAnnotationIds[0] + " - length: " + arrAnnotationIds.length);
 
 		Vector<Long> vecLong = new Vector<Long>();
 		for (String annoId : arrAnnotationIds) {
@@ -57,6 +55,17 @@ public class AnnotationManager {
 		// get annotation package
 		AnnotationPackage annotationPackage = annotationDao.findByIds(arrLong);
 
+		return annotationPackage.toJsonString();
+	}
+
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/cat/{category}")
+	public String getAnnotationByCategory(@PathParam("category") String category) {
+		// get annotation package
+		AnnotationPackage annotationPackage = annotationDao.findByCategory(category);
+
+		//and return it as JSON
 		return annotationPackage.toJsonString();
 	}
 
