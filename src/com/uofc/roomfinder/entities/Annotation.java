@@ -99,6 +99,10 @@ public class Annotation implements Serializable {
 		this.timestamp = (newAnno.getTimestamp()==null)?null:newAnno.getTimestamp();
 	}
 
+	/**
+	 * 
+	 * @return JSON representation of object
+	 */
 	public String toJsonString() {
 		Gson gson = new GsonBuilder().registerTypeAdapter(Annotation.class, new AnnotationJsonSerialzer()).setPrettyPrinting().serializeNulls().create();
 		String json = gson.toJson(this);
