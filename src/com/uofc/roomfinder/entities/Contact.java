@@ -3,14 +3,20 @@ package com.uofc.roomfinder.entities;
 import java.util.LinkedList;
 import java.util.List;
 
+
+/**
+ * represents a data set of the public LDAP directory of the UofC
+ * 
+ * @author benjaminlautenschlaeger
+ */
 public class Contact {
-	String preName;	
-	String surName;
-	String commonName;
-	List<String> emails;
-	List<String> telephoneNumbers;
-	List<String> roomNumber;
-	List<String> departments;
+	private String preName;	
+	private String surName;
+	private String commonName;
+	private List<String> emails;
+	private List<String> telephoneNumbers;
+	private List<String> roomNumber;
+	private List<String> departments;
 	
 	//constructor
 	public Contact(){

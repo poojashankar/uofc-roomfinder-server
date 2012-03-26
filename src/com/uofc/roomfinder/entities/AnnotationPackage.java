@@ -4,17 +4,15 @@ import java.util.LinkedList;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.annotations.Expose;
 import com.uofc.roomfinder.util.gson.AnnotationJsonDeserializer;
 import com.uofc.roomfinder.util.gson.AnnotationJsonSerialzer;
 
 public class AnnotationPackage {
 	private final static String STATUS_OK = "OK";
-	private final static String STATUS_FAIL = "FAIL";
 		
-	@Expose private String status;
-	@Expose private int num_results;
-	@Expose private LinkedList<Annotation> results;
+	private String status;
+	private int num_results;
+	private LinkedList<Annotation> results;
 	
 	//constructor
 	public AnnotationPackage(){
