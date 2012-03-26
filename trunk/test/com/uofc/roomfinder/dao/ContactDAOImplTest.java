@@ -85,5 +85,30 @@ public class ContactDAOImplTest {
 		assertEquals(result.get(0).getSurName(), "Maurer");
 		assertEquals(result.get(0).getRoomNumber().get(0), "ICT550");
 	}
+	
+	@Test
+	public void findContactByBuildingAndRoom3() {
+		List<Contact> result = contactDao.findContactsBuildingAndRoom("Information & Communication Technology 550 ");
+
+		assertEquals(result.get(0).getPreName(), "Frank");
+		assertEquals(result.get(0).getSurName(), "Maurer");
+		assertEquals(result.get(0).getRoomNumber().get(0), "ICT550");
+	}
+	
+	@Test
+	public void findContactByBuildingAndRoom4() {
+		List<Contact> result = contactDao.findContactsBuildingAndRoom("information communication 550 ");
+
+		assertEquals(result.get(0).getPreName(), "Frank");
+		assertEquals(result.get(0).getSurName(), "Maurer");
+		assertEquals(result.get(0).getRoomNumber().get(0), "ICT550");
+	}
+	
+	@Test
+	public void findContactByBuildingAndRoom5() {
+		List<Contact> result = contactDao.findContactsBuildingAndRoom("earth science 550 ");
+
+		assertEquals(result.get(0).getRoomNumber().get(0), "ES550");
+	}
 
 }

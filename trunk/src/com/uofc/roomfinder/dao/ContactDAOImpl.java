@@ -14,6 +14,7 @@ import javax.naming.directory.InitialDirContext;
 import javax.naming.directory.SearchControls;
 import javax.naming.directory.SearchResult;
 
+import com.uofc.roomfinder.entities.Building;
 import com.uofc.roomfinder.entities.Contact;
 
 /**
@@ -40,7 +41,7 @@ public class ContactDAOImpl implements ContactDAO {
 			searchStringbuilder.append(singleSearchString + "*");
 		}
 
-		// search
+		// normal search
 		contacts = searchLdap4Contacts(searchStringbuilder.toString());
 
 		// if no match found check search string the other way
@@ -66,12 +67,33 @@ public class ContactDAOImpl implements ContactDAO {
 			searchStringbuilder.append(singleSearchString + "*");
 		}
 
-		// search
+		// normal search
 		contacts = searchLdap4Contacts(searchStringbuilder.toString());
 
 		// if no match found check search string the other way
 		if (contacts.size() == 0 && splittedSearchString.length > 1) {
 			contacts = this.searchLdap4Contacts("roomNumber=*" + splittedSearchString[1] + "*" + splittedSearchString[0] + "*");
+		}
+
+		// if still no match found, try to find building, get abbreviation, and then search again
+		if (contacts.size() == 0 && splittedSearchString.length > 1) {
+			String roomNumber = "";
+			String building = "";
+
+			for (String singleSearchString : splittedSearchString) {
+				if (isNumeric(singleSearchString)) {
+					roomNumber = singleSearchString;
+				} else {
+					building += singleSearchString + " ";
+				}
+			}
+			
+			BuildingDAO buildingDao = new BuildingDAOImpl();
+			List<Building> foundBuildings = buildingDao.findBuildingsByName(building);
+
+			for(Building foundBuilding : foundBuildings){
+				contacts = this.searchLdap4Contacts("roomNumber=*" + foundBuilding.getAbbreviation() + "*" + roomNumber + "*");
+			}
 		}
 
 		return contacts;
@@ -164,4 +186,21 @@ public class ContactDAOImpl implements ContactDAO {
 			newContact.getDepartments().add(values.next().toString());
 		}
 	}
+
+	/**
+	 * help method to check if the String is numeric
+	 * 
+	 * @param input
+	 *            string to check
+	 * @return true = numeric, false != numeric
+	 */
+	public boolean isNumeric(String input) {
+		try {
+			Integer.parseInt(input);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
 }
