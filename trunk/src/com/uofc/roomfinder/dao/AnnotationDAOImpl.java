@@ -18,9 +18,8 @@ import com.uofc.roomfinder.util.ConnectionFactory;
  * 
  * @author lauteb
  */
-public class AnnotationDAOImpl extends GenericDAOImpl<Annotation, Long>	implements AnnotationDAO {
+public class AnnotationDAOImpl extends GenericDAOImpl<Annotation, Long> implements AnnotationDAO {
 
-	
 	/**
 	 * save the given annotation to DB
 	 */
@@ -39,17 +38,16 @@ public class AnnotationDAOImpl extends GenericDAOImpl<Annotation, Long>	implemen
 					+ "VALUES(?, ?, ?, ?, ?, ?, ?)";
 
 			// return generated keys -> to retrieve the autoincrement id
-			prepStmt = conn.prepareStatement(sql,
-					Statement.RETURN_GENERATED_KEYS);
+			prepStmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
 			// every field
 			prepStmt.setString(1, annotation.getText());
 			prepStmt.setString(2, annotation.getLatitude());
 			prepStmt.setString(3, annotation.getLongitude());
 			prepStmt.setString(4, annotation.getElevation());
-			prepStmt.setString(5, (annotation.getDistance()==null) ? "0" : annotation.getDistance());
+			prepStmt.setString(5, (annotation.getDistance() == null) ? "0" : annotation.getDistance());
 			prepStmt.setInt(6, annotation.getHas_detail_page());
-			prepStmt.setString(7, (annotation.getWebpage()==null) ? "0" : annotation.getWebpage());
+			prepStmt.setString(7, (annotation.getWebpage() == null) ? "0" : annotation.getWebpage());
 
 			// exec stmt
 			prepStmt.executeUpdate();
@@ -69,7 +67,6 @@ public class AnnotationDAOImpl extends GenericDAOImpl<Annotation, Long>	implemen
 		}
 	}
 
-	
 	/**
 	 * deletes the annotation by ID of the object
 	 */
@@ -98,7 +95,6 @@ public class AnnotationDAOImpl extends GenericDAOImpl<Annotation, Long>	implemen
 		}
 	}
 
-	
 	/**
 	 * returns a single Annotation with given ID
 	 */
@@ -137,7 +133,7 @@ public class AnnotationDAOImpl extends GenericDAOImpl<Annotation, Long>	implemen
 
 		return annotation;
 	}
-	
+
 	/**
 	 * searches all annotations by given IDs
 	 * 
@@ -147,33 +143,33 @@ public class AnnotationDAOImpl extends GenericDAOImpl<Annotation, Long>	implemen
 		System.out.println("length of IDs: " + ids.length);
 		if (ids.length < 1)
 			return null;
-		
+
 		Annotation annotation = null;
 		AnnotationPackage annotationPackage = new AnnotationPackage();
-		
+
 		Connection conn = null;
 		PreparedStatement prepStmt = null;
 		ResultSet rs = null;
-		
-		//get IDs in a row for sql statement
+
+		// get IDs in a row for sql statement
 		StringBuilder strBuilder = new StringBuilder();
-		for(int i=0; i<ids.length ;i++){
+		for (int i = 0; i < ids.length; i++) {
 			strBuilder.append("?,");
 		}
-		String strQuestionMarks = strBuilder.substring(0, strBuilder.length() -1);
+		String strQuestionMarks = strBuilder.substring(0, strBuilder.length() - 1);
 
 		try {
 			conn = ConnectionFactory.getInstance().getConnection();
 
-			String sql = "SELECT * FROM tbl_annotations WHERE id IN ("+strQuestionMarks+")";
+			String sql = "SELECT * FROM tbl_annotations WHERE id IN (" + strQuestionMarks + ")";
 			System.out.println(sql);
 			prepStmt = conn.prepareStatement(sql);
-			
-			//set every ID
+
+			// set every ID
 			int i = 1;
 			System.out.println("ID1: " + ids[0]);
-			
-			for(Long id : ids){
+
+			for (Long id : ids) {
 				prepStmt.setLong(i++, id);
 			}
 
@@ -183,7 +179,7 @@ public class AnnotationDAOImpl extends GenericDAOImpl<Annotation, Long>	implemen
 			// fill DTO
 			while (rs.next()) {
 				annotation = new Annotation(rs);
-				annotationPackage.addAnnotation(annotation);				
+				annotationPackage.addAnnotation(annotation);
 			}
 
 		} catch (SQLException e) {
@@ -198,7 +194,49 @@ public class AnnotationDAOImpl extends GenericDAOImpl<Annotation, Long>	implemen
 		return annotationPackage;
 	}
 
+	/**
+	 * searches all annotations by given category
+	 * 
+	 * @returns an annotation package with all those annotations
+	 */
+	public AnnotationPackage findByCategory(String category) {
+		Annotation annotation = null;
+		AnnotationPackage annotationPackage = new AnnotationPackage();
+
+		Connection conn = null;
+		PreparedStatement prepStmt = null;
+		ResultSet rs = null;
+
+		try {
+			conn = ConnectionFactory.getInstance().getConnection();
+
+			String sql = "SELECT * FROM tbl_annotations AS a, tbl_annotation_categories AS ac WHERE a.cat = ac.id AND ac.name = ?";
+			System.out.println(sql);
+			prepStmt = conn.prepareStatement(sql);
+			prepStmt.setString(1, category);
+
+			// exec stmt
+			rs = prepStmt.executeQuery();
+
+			// fill DTO
+			while (rs.next()) {
+				annotation = new Annotation(rs);
+				annotationPackage.addAnnotation(annotation);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+		} finally {
+			DbUtils.closeQuietly(rs);
+			DbUtils.closeQuietly(prepStmt);
+			DbUtils.closeQuietly(conn);
+		}
+
+		return annotationPackage;
+	}
 	
+
 	public List<Annotation> findNearbyAnnotations(Coordinate currentPosition) {
 		// TODO Auto-generated method stub
 		return null;
