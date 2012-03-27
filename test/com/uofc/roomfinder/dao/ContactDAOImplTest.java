@@ -110,5 +110,12 @@ public class ContactDAOImplTest {
 
 		assertEquals(result.get(0).getRoomNumber().get(0), "ES550");
 	}
+	
+	@Test
+	public void findContactByBuildingAndRoom6() {
+		List<Contact> result = contactDao.findContactsBuildingAndRoom("math 680");
+
+		assertEquals(result.get(0).getRoomNumber().get(0), "MS680");
+	}
 
 }

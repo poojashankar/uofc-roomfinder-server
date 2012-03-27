@@ -16,6 +16,7 @@ import javax.naming.directory.SearchResult;
 
 import com.uofc.roomfinder.entities.Building;
 import com.uofc.roomfinder.entities.Contact;
+import com.uofc.roomfinder.entities.ContactList;
 
 /**
  * 
@@ -26,12 +27,30 @@ public class ContactDAOImpl implements ContactDAO {
 	final static String LDAP_SERVER_NAME = "directory.ucalgary.ca";
 	final static String ROOT_CONTEXT = "o=ucalgary.ca Scope=LDAP_SCOPE_SUBTREE";
 
+	
+	/**
+	 * searches the LDAP directory for buildings AND names
+	 */
+	public ContactList findContacts(String searchString) {
+
+		ContactList contacts = new ContactList();
+
+		// first try to search by name
+		contacts.addAll(this.findContactsByName(searchString));
+
+		// then try to search for a building with room
+		contacts.addAll(this.findContactsBuildingAndRoom(searchString));
+
+		return contacts;
+	}
+	
+	
 	/**
 	 * searches the LDAP directory for entries (field: common name)
 	 */
 	@Override
-	public List<Contact> findContactsByName(String searchString) {
-		List<Contact> contacts = new LinkedList<Contact>();
+	public ContactList findContactsByName(String searchString) {
+		ContactList contacts = new ContactList();
 
 		// build search string
 		StringBuilder searchStringbuilder = new StringBuilder("cn=*");
@@ -87,11 +106,11 @@ public class ContactDAOImpl implements ContactDAO {
 					building += singleSearchString + " ";
 				}
 			}
-			
+
 			BuildingDAO buildingDao = new BuildingDAOImpl();
 			List<Building> foundBuildings = buildingDao.findBuildingsByName(building);
 
-			for(Building foundBuilding : foundBuildings){
+			for (Building foundBuilding : foundBuildings) {
 				contacts = this.searchLdap4Contacts("roomNumber=*" + foundBuilding.getAbbreviation() + "*" + roomNumber + "*");
 			}
 		}
@@ -120,8 +139,8 @@ public class ContactDAOImpl implements ContactDAO {
 	 * @param searchString
 	 *            given LDAP search query
 	 */
-	private List<Contact> searchLdap4Contacts(String searchString) {
-		List<Contact> contacts = new LinkedList<Contact>();
+	private ContactList searchLdap4Contacts(String searchString) {
+		ContactList contacts = new ContactList();
 
 		try {
 			DirContext ctx = getLdapContext();
@@ -144,7 +163,7 @@ public class ContactDAOImpl implements ContactDAO {
 				contacts.add(newContact);
 			}
 		} catch (Exception e) {
-			System.err.println(e);
+			e.printStackTrace();
 		}
 
 		return contacts;
@@ -158,32 +177,50 @@ public class ContactDAOImpl implements ContactDAO {
 	 * @throws NamingException
 	 */
 	private void createContactFromAttribs(Contact newContact, Attributes attribs) throws NamingException {
-		newContact.setCommonName((String) attribs.get("cn").get(0));
-		newContact.setSurName((String) attribs.get("sn").get(0));
-		newContact.setPreName((String) attribs.get("givenName").get(0));
+		NamingEnumeration<?> values;
 
-		// add phone numbers
-		NamingEnumeration<?> values = ((BasicAttribute) attribs.get("telephoneNumber")).getAll();
-		while (values.hasMore()) {
-			newContact.getTelephoneNumbers().add(values.next().toString());
+		if (attribs.get("cn") != null) {
+			newContact.setCommonName((String) attribs.get("cn").get(0));
+		}
+
+		if (attribs.get("sn") != null) {
+			newContact.setSurName((String) attribs.get("sn").get(0));
+		}
+
+		if (attribs.get("givenName") != null) {
+			newContact.setPreName((String) attribs.get("givenName").get(0));
+		}
+
+		// add phone numbers (each contact can have several phone numbers)
+		if (attribs.get("telephoneNumber") != null) {
+			values = ((BasicAttribute) attribs.get("telephoneNumber")).getAll();
+			while (values.hasMore()) {
+				newContact.getTelephoneNumbers().add(values.next().toString());
+			}
 		}
 
 		// add mail addresses
-		values = ((BasicAttribute) attribs.get("mail")).getAll();
-		while (values.hasMore()) {
-			newContact.getEmails().add(values.next().toString());
+		if (attribs.get("mail") != null) {
+			values = ((BasicAttribute) attribs.get("mail")).getAll();
+			while (values.hasMore()) {
+				newContact.getEmails().add(values.next().toString());
+			}
 		}
 
 		// add room numbers
-		values = ((BasicAttribute) attribs.get("roomNumber")).getAll();
-		while (values.hasMore()) {
-			newContact.getRoomNumber().add(values.next().toString());
+		if (attribs.get("roomNumber") != null) {
+			values = ((BasicAttribute) attribs.get("roomNumber")).getAll();
+			while (values.hasMore()) {
+				newContact.getRoomNumber().add(values.next().toString());
+			}
 		}
 
 		// add departments
-		values = ((BasicAttribute) attribs.get("department")).getAll();
-		while (values.hasMore()) {
-			newContact.getDepartments().add(values.next().toString());
+		if (attribs.get("department") != null) {
+			values = ((BasicAttribute) attribs.get("department")).getAll();
+			while (values.hasMore()) {
+				newContact.getDepartments().add(values.next().toString());
+			}
 		}
 	}
 
@@ -202,5 +239,7 @@ public class ContactDAOImpl implements ContactDAO {
 			return false;
 		}
 	}
+
+	
 
 }

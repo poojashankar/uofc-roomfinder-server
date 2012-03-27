@@ -3,6 +3,7 @@ package com.uofc.roomfinder.dao;
 import java.util.List;
 
 import com.uofc.roomfinder.entities.Contact;
+import com.uofc.roomfinder.entities.ContactList;
 
 /**
  * 
@@ -10,8 +11,10 @@ import com.uofc.roomfinder.entities.Contact;
  */
 public interface ContactDAO {
 
-	public List<Contact> findContactsByName(String name);
+	public ContactList findContactsByName(String name);
 
 	public List<Contact> findContactsBuildingAndRoom(String buildingAndRoom);
+	
+	public ContactList findContacts(String searchString);
 
 }

@@ -28,7 +28,7 @@ public class BuildingDAOImpl implements BuildingDAO {
 		// if normal search fails, try modifications
 
 		// split name and fill with wild cards
-		if (buildings.size() == 0 && name.split(" ").length > 1) {
+		if (buildings.size() == 0 && name.split(" ").length > 0) {
 			StringBuilder searchStringbuilder = new StringBuilder("%");
 			String[] splittedSearchString = name.split(" ");
 
@@ -60,7 +60,7 @@ public class BuildingDAOImpl implements BuildingDAO {
 
 			prepStmt.setString(1, "%" + name + "%");
 			prepStmt.setString(2, "%" + name + "%");
-
+			
 			// exec stmt
 			rs = prepStmt.executeQuery();
 
