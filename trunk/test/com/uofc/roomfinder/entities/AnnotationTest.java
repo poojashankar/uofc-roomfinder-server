@@ -23,6 +23,7 @@ public class AnnotationTest {
 
 	@Test
 	public void testGetJSON() {
+		@SuppressWarnings("deprecation")
 		Annotation newAnno = new Annotation(ID, LATITUDE, LONGITUDE, ALTITUDE, TEXT, DISTANCE, HAS_DETAIL_PAGE, WEBPAGE, new Date(112, 2, 14, 16, 42, 17));
 		Assert.assertEquals(JSON_STRING.replace(" ", ""), newAnno.toJsonString().replace("\n", "").replace(" ", ""));
 	}

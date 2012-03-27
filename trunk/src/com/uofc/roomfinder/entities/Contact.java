@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.uofc.roomfinder.util.gson.AnnotationJsonDeserializer;
 
 /**
  * represents a data set of the public LDAP directory of the UofC
@@ -21,14 +20,21 @@ public class Contact {
 	private List<String> roomNumber;
 	private List<String> departments;
 
-	// constructor
+	/**
+	 * default constructor
+	 */
 	public Contact() {
 		emails = new LinkedList<String>();
 		telephoneNumbers = new LinkedList<String>();
 		roomNumber = new LinkedList<String>();
 		departments = new LinkedList<String>();
 	}
-	
+
+	/**
+	 * deserializes a JSON string
+	 * 
+	 * @param jsonString
+	 */
 	public Contact(String jsonString) {
 		this();
 
