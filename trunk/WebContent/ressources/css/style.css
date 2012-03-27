@@ -10,13 +10,15 @@ html,body {
 #tabledesign {
 	border: 1px solid #DFDFDF;
 	background-color: #F9F9F9;
-	width: 100%;
+	float: left;
+	width:100%;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
 	font-family: Arial, "Bitstream Vera Sans", Helvetica, Verdana,
 		sans-serif;
 	color: #333;
+	
 }
 
 #tabledesign td,#tabledesign th {
@@ -40,4 +42,45 @@ html,body {
 	font-size: 12px;
 	padding: 4px 7px 2px;
 	vertical-align: top;
+}
+
+.linkbox {
+	background-color: #F9F9F9;
+	width: 30%;
+	float: right;
+	font-size: 12px;
+	font-family: Arial, "Bitstream Vera Sans", Helvetica, Verdana,
+		sans-serif;
+	margin: 30px 30px 10px 10px;
+	color: #555;
+}
+
+.searchbox {
+	background-color: white;
+	margin: 30px 10px 10px 30px;
+	float: left;
+	font-family: Arial, "Bitstream Vera Sans", Helvetica, Verdana,
+		sans-serif;
+	color: #555;
+	width: 60%;
+}
+
+a:link {
+	text-decoration: none;
+	color: #555;
+}
+
+a:visited {
+	text-decoration: none;
+	color: #555;
+}
+
+a:hover {
+	text-decoration: underline;
+	color: #555;
+}
+
+a:active {
+	text-decoration: underline;
+	color: #555;
 }
