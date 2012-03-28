@@ -75,8 +75,8 @@ public class ContactDAOImpl implements ContactDAO {
 	 * searches the LDAP directory for entries (field: roomNumber)
 	 */
 	@Override
-	public List<Contact> findContactsBuildingAndRoom(String searchString) {
-		List<Contact> contacts = new LinkedList<Contact>();
+	public ContactList findContactsBuildingAndRoom(String searchString) {
+		ContactList contacts = new ContactList();
 
 		// build search string
 		StringBuilder searchStringbuilder = new StringBuilder("roomNumber=*");

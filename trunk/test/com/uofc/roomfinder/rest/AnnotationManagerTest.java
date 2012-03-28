@@ -17,7 +17,7 @@ import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.test.framework.JerseyTest;
 import com.sun.jersey.test.framework.WebAppDescriptor;
 import com.uofc.roomfinder.entities.Annotation;
-import com.uofc.roomfinder.entities.AnnotationPackage;
+import com.uofc.roomfinder.entities.AnnotationList;
 import com.uofc.roomfinder.util.gson.AnnotationJsonDeserializer;
 
 public class AnnotationManagerTest extends JerseyTest {
@@ -72,7 +72,7 @@ public class AnnotationManagerTest extends JerseyTest {
 
 		String responseMsg = webResource.path("annotation/ids/" + ID).accept(MediaType.APPLICATION_JSON).get(String.class);
 		// System.out.println(responseMsg);
-		AnnotationPackage annoPackage = new AnnotationPackage(responseMsg);
+		AnnotationList annoPackage = new AnnotationList(responseMsg);
 
 		assertEquals(ID, annoPackage.getResults().getFirst().getId());
 		assertEquals(TEXT, annoPackage.getResults().getFirst().getText());
@@ -93,7 +93,7 @@ public class AnnotationManagerTest extends JerseyTest {
 				+ "  ] " + "}";
 
 		Gson gson = new GsonBuilder().registerTypeAdapter(Annotation.class, new AnnotationJsonDeserializer()).serializeNulls().create();
-		AnnotationPackage annoPackage = gson.fromJson(JSON_TEST, AnnotationPackage.class);
+		AnnotationList annoPackage = gson.fromJson(JSON_TEST, AnnotationList.class);
 		assertEquals(2, annoPackage.getNum_results());
 		assertEquals("test_ID_TEST1", annoPackage.getResults().get(1).getText());
 		assertEquals("0", annoPackage.getResults().get(0).getDistance());

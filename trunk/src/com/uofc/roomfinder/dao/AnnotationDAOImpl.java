@@ -10,7 +10,7 @@ import java.util.List;
 import org.apache.commons.dbutils.DbUtils;
 
 import com.uofc.roomfinder.entities.Annotation;
-import com.uofc.roomfinder.entities.AnnotationPackage;
+import com.uofc.roomfinder.entities.AnnotationList;
 import com.uofc.roomfinder.entities.Coordinate;
 import com.uofc.roomfinder.util.ConnectionFactory;
 
@@ -141,12 +141,12 @@ public class AnnotationDAOImpl extends GenericDAOImpl<Annotation, Long> implemen
 	 * @returns an annotation package with all those annotations
 	 */
 	@Override
-	public AnnotationPackage findByIds(Long... ids) {
+	public AnnotationList findByIds(Long... ids) {
 		if (ids.length < 1)
 			return null;
 
 		Annotation annotation = null;
-		AnnotationPackage annotationPackage = new AnnotationPackage();
+		AnnotationList annotationPackage = new AnnotationList();
 
 		Connection conn = null;
 		PreparedStatement prepStmt = null;
@@ -199,9 +199,9 @@ public class AnnotationDAOImpl extends GenericDAOImpl<Annotation, Long> implemen
 	 * @returns an annotation package with all those annotations
 	 */
 	@Override
-	public AnnotationPackage findByCategory(String category) {
+	public AnnotationList findByCategory(String category) {
 		Annotation annotation = null;
-		AnnotationPackage annotationPackage = new AnnotationPackage();
+		AnnotationList annotationPackage = new AnnotationList();
 
 		Connection conn = null;
 		PreparedStatement prepStmt = null;

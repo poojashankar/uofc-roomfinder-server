@@ -13,7 +13,7 @@ public interface ContactDAO {
 
 	public ContactList findContactsByName(String name);
 
-	public List<Contact> findContactsBuildingAndRoom(String buildingAndRoom);
+	public ContactList findContactsBuildingAndRoom(String buildingAndRoom);
 	
 	public ContactList findContacts(String searchString);
 

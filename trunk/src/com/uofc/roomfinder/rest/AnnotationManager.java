@@ -11,7 +11,7 @@ import javax.ws.rs.core.MediaType;
 import com.uofc.roomfinder.dao.AnnotationDAO;
 import com.uofc.roomfinder.dao.AnnotationDAOImpl;
 import com.uofc.roomfinder.entities.Annotation;
-import com.uofc.roomfinder.entities.AnnotationPackage;
+import com.uofc.roomfinder.entities.AnnotationList;
 
 @Path("/annotation")
 public class AnnotationManager {
@@ -45,7 +45,7 @@ public class AnnotationManager {
 		vecLong.toArray(arrLong);
 
 		// get annotation package
-		AnnotationPackage annotationPackage = annotationDao.findByIds(arrLong);
+		AnnotationList annotationPackage = annotationDao.findByIds(arrLong);
 
 		return annotationPackage.toJsonString();
 	}
@@ -55,7 +55,7 @@ public class AnnotationManager {
 	@Path("/cat/{category}")
 	public String getAnnotationByCategory(@PathParam("category") String category) {
 		// get annotation package
-		AnnotationPackage annotationPackage = annotationDao.findByCategory(category);
+		AnnotationList annotationPackage = annotationDao.findByCategory(category);
 
 		// and return it as JSON
 		return annotationPackage.toJsonString();

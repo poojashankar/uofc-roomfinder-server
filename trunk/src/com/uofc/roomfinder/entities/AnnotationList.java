@@ -7,7 +7,7 @@ import com.google.gson.GsonBuilder;
 import com.uofc.roomfinder.util.gson.AnnotationJsonDeserializer;
 import com.uofc.roomfinder.util.gson.AnnotationJsonSerialzer;
 
-public class AnnotationPackage {
+public class AnnotationList {
 	private final static String STATUS_OK = "OK";
 		
 	private String status;
@@ -15,7 +15,7 @@ public class AnnotationPackage {
 	private LinkedList<Annotation> results;
 	
 	//constructor
-	public AnnotationPackage(){
+	public AnnotationList(){
 		super();
 		results = new LinkedList<Annotation>();
 		status = STATUS_OK;		
@@ -27,12 +27,12 @@ public class AnnotationPackage {
 	 * @param jsonString
 	 *            JSON representation of object
 	 */
-	public AnnotationPackage(String jsonString) {
+	public AnnotationList(String jsonString) {
 		this();
 
 		// deserialize JSON String
 		Gson gson = new GsonBuilder().registerTypeAdapter(Annotation.class, new AnnotationJsonDeserializer()).serializeNulls().create();
-		AnnotationPackage newAnnoPackage = gson.fromJson(jsonString, AnnotationPackage.class);
+		AnnotationList newAnnoPackage = gson.fromJson(jsonString, AnnotationList.class);
 
 		this.num_results = newAnnoPackage.getNum_results();
 		this.status = newAnnoPackage.getStatus();

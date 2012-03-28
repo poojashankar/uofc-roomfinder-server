@@ -12,4 +12,7 @@ public interface BuildingDAO {
 
 	public List<Building> findBuildingsByName(String name);
 
+	public int updateBuildingTable();
+	
+	
 }
