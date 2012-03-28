@@ -3,7 +3,7 @@ package com;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.uofc.roomfinder.entities.Annotation;
-import com.uofc.roomfinder.entities.AnnotationPackage;
+import com.uofc.roomfinder.entities.AnnotationList;
 import com.uofc.roomfinder.util.gson.AnnotationJsonDeserializer;
 
 public class Main {
@@ -39,7 +39,7 @@ public class Main {
 				"}";
 		
 	    Gson gson = new GsonBuilder().registerTypeAdapter(Annotation.class, new AnnotationJsonDeserializer()).serializeNulls().create();
-	    AnnotationPackage annoPackage = gson.fromJson(JSON_TEST, AnnotationPackage.class);
+	    AnnotationList annoPackage = gson.fromJson(JSON_TEST, AnnotationList.class);
 	    System.out.println(annoPackage.getResults().get(0).getWebpage());
 		
 	}

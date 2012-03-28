@@ -7,7 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.uofc.roomfinder.entities.Annotation;
-import com.uofc.roomfinder.entities.AnnotationPackage;
+import com.uofc.roomfinder.entities.AnnotationList;
 
 public class AnnotationDAOImplTest {
 
@@ -168,7 +168,7 @@ public class AnnotationDAOImplTest {
 		long annoId3 = saveAnno(TEXT3, LONGITUDE, LATITUDE, ALTITUDE);
 
 		// call findByIds
-		AnnotationPackage annotationPackage = annotationDAO.findByIds(annoId1, annoId2, annoId3);
+		AnnotationList annotationPackage = annotationDAO.findByIds(annoId1, annoId2, annoId3);
 
 		// check if every text is in annotation package
 		for (Annotation anno : annotationPackage.getResults()) {

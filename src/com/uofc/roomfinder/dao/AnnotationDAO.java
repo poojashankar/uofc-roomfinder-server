@@ -3,7 +3,7 @@ package com.uofc.roomfinder.dao;
 import java.util.List;
 
 import com.uofc.roomfinder.entities.Annotation;
-import com.uofc.roomfinder.entities.AnnotationPackage;
+import com.uofc.roomfinder.entities.AnnotationList;
 import com.uofc.roomfinder.entities.Coordinate;
 
 /**
@@ -16,8 +16,8 @@ public interface AnnotationDAO extends GenericDAO<Annotation, Long> {
 
 	public List<Annotation> findNearbyAnnotations(Coordinate currentPosition);
 
-	public AnnotationPackage findByIds(Long... ids);
+	public AnnotationList findByIds(Long... ids);
 
-	public AnnotationPackage findByCategory(String category);
+	public AnnotationList findByCategory(String category);
 
 }
