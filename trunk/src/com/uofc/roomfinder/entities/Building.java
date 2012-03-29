@@ -46,4 +46,8 @@ public class Building {
 	public void setAbbreviation(String abbreviation) {
 		this.abbreviation = abbreviation;
 	}
+	
+	public void getGeometry(){
+		//TODO: implement
+	}
 }
