@@ -1,5 +1,6 @@
 package com.uofc.roomfinder.dao;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,6 +10,10 @@ import java.util.List;
 
 import org.apache.commons.dbutils.DbUtils;
 
+import com.esri.arcgis.interop.AutomationException;
+import com.esri.arcgis.server.IServerContext;
+import com.esri.arcgis.server.IServerObjectManager;
+import com.esri.arcgis.server.ServerConnection;
 import com.uofc.roomfinder.entities.Building;
 import com.uofc.roomfinder.util.ConnectionFactory;
 
@@ -83,11 +88,22 @@ public class BuildingDAOImpl implements BuildingDAO {
 
 	@Override
 	public int updateBuildingTable() {
-		
-		
-		
-		
-		
+
+		String hostname = "";
+
+		try {
+			ServerConnection connection = new ServerConnection();
+			connection.connect(hostname);
+			IServerObjectManager som = connection.getServerObjectManager();
+			IServerContext sc = som.createServerContext("", "");
+		} catch (AutomationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		return -1;
 	}
 }
