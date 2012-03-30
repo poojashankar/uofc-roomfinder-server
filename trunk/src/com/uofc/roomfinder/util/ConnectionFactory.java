@@ -14,9 +14,12 @@ public class ConnectionFactory {
 	
 
 	final String USER_NAME = "root"; 
-	final String PASSWORD = ""; 
+	//final String PASSWORD = "roomfinder123!X"; 
+	final String PASSWORD = "roomfinder123!X";
 	//final String URL = "jdbc:mysql://localhost:3306/roomfinder"; 
-	final String URL = "jdbc:mysql://10.11.27.137:3306/roomfinder";
+	//final String URL = "jdbc:mysql://10.11.27.137:3306/roomfinder";
+	final String URL = "jdbc:mysql://ec2-23-20-196-109.compute-1.amazonaws.com:3306/roomfinder";
+	
 	final String DRIVER_CLASS_NAME = "com.mysql.jdbc.Driver";
 
 	private static ConnectionFactory connectionFactory = null;

@@ -13,20 +13,13 @@ public abstract class GenericDAOImpl<T, ID extends Serializable> implements Gene
 	// }
 
 	@Override
-	public void save(T entity) {
-		// Session hibernateSession = this.getSession();
-		// hibernateSession.saveOrUpdate(entity);
-	}
-
-	public void merge(T entity) {
-		// Session hibernateSession = this.getSession();
-		// hibernateSession.merge(entity);
-	}
+	public boolean save(T entity){
+		return false;
+	};
 
 	@Override
-	public void delete(T entity) {
-		// Session hibernateSession = this.getSession();
-		// hibernateSession.delete(entity);
+	public boolean delete(T entity) {
+		return false;
 	}
 
 	// public List<T> findMany(Query query) {

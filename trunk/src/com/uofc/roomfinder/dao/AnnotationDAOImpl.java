@@ -24,7 +24,7 @@ public class AnnotationDAOImpl extends GenericDAOImpl<Annotation, Long> implemen
 	 * save the given annotation to DB
 	 */
 	@Override
-	public void save(Annotation annotation) {
+	public boolean save(Annotation annotation) {
 
 		Connection conn = null;
 		PreparedStatement prepStmt = null;
@@ -57,8 +57,11 @@ public class AnnotationDAOImpl extends GenericDAOImpl<Annotation, Long> implemen
 			if (rs.next()) {
 				annotation.setId(rs.getLong(1));
 			}
+			return true;
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return false;
 
 		} finally {
 			DbUtils.closeQuietly(rs);
@@ -71,7 +74,7 @@ public class AnnotationDAOImpl extends GenericDAOImpl<Annotation, Long> implemen
 	 * deletes the annotation by ID of the object
 	 */
 	@Override
-	public void delete(Annotation annotation) {
+	public boolean delete(Annotation annotation) {
 		Connection conn = null;
 		PreparedStatement prepStmt = null;
 
@@ -84,7 +87,11 @@ public class AnnotationDAOImpl extends GenericDAOImpl<Annotation, Long> implemen
 			prepStmt.setLong(1, annotation.getId());
 
 			// exec stmt
-			prepStmt.executeUpdate();
+			int result = prepStmt.executeUpdate();
+			
+			if (result > 0){
+				return true;
+			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -93,6 +100,7 @@ public class AnnotationDAOImpl extends GenericDAOImpl<Annotation, Long> implemen
 			DbUtils.closeQuietly(prepStmt);
 			DbUtils.closeQuietly(conn);
 		}
+		return false;
 	}
 
 	/**
