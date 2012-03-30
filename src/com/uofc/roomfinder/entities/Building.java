@@ -12,6 +12,13 @@ public class Building {
 	private String name;
 	private String abbreviation;
 
+	private String name_2;
+	private String address;
+	private String use;
+
+	private String centerX;
+	private String centerY;
+	
 	// constructors
 	public Building() {
 
@@ -46,8 +53,48 @@ public class Building {
 	public void setAbbreviation(String abbreviation) {
 		this.abbreviation = abbreviation;
 	}
+
+	public String getName_2() {
+		return name_2;
+	}
+
+	public void setName_2(String name_2) {
+		this.name_2 = name_2;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getUse() {
+		return use;
+	}
+
+	public void setUse(String use) {
+		this.use = use;
+	}
 	
-	public void getGeometry(){
-		//TODO: implement
+	public String getCenterX() {
+		return centerX;
+	}
+
+	public void setCenterX(String centerX) {
+		this.centerX = centerX;
+	}
+
+	public String getCenterY() {
+		return centerY;
+	}
+
+	public void setCenterY(String centerY) {
+		this.centerY = centerY;
+	}
+
+	public void getGeometry() {
+		// TODO: implement
 	}
 }

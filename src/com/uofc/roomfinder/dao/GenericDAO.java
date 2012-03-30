@@ -9,9 +9,9 @@ import java.io.Serializable;
 
 public interface GenericDAO<T, ID extends Serializable> {
 
-    public void save(T entity);
+    public boolean save(T entity);
 
-    public void delete(T entity);
+    public boolean delete(T entity);
 
     //public List<T> findMany(Query query);
 

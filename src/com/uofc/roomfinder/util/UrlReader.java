@@ -26,13 +26,25 @@ public class UrlReader {
 			String hostname = stringUrl.split("/")[0];
 			String path = stringUrl.replace(hostname, "");
 
-			// cut off port (if set)
-			if (hostname.indexOf(':') != -1) {
-				hostname = hostname.substring(0, hostname.indexOf(':'));
+			// query params set?
+			String query = null;
+			if (path.indexOf('?') != -1) {				
+				query = path.substring(path.indexOf('?')+1, path.length());
+				path = path.split("\\?")[0];
 			}
 
+			// cut off port (if set)
+			int port = 80;
+			if (hostname.indexOf(':') != -1) {
+				port = Integer.parseInt(hostname.substring(hostname.indexOf(':')+1, hostname.length()));
+				hostname = hostname.substring(0, hostname.indexOf(':'));
+			}
+			
+			//System.out.println("splitted: " + hostname + "    :    " + port + " - " + path + "    ?     " + query);
+			//System.out.println(new URI("http", null, hostname, 80, path, query, null).toURL());
+
 			// open stream for URL
-			is = new URI("http", null, hostname, 8080, path, null, null).toURL().openStream();
+			is = new URI("http", null, hostname, port, path, query, null).toURL().openStream();
 			BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
 
 			// read whole page
