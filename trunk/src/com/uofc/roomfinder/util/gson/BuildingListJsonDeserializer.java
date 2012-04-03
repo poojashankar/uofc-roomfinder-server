@@ -5,9 +5,9 @@ import java.lang.reflect.Type;
 import java.net.UnknownHostException;
 import java.util.LinkedList;
 import java.util.List;
-import com.esri.arcgis.geometry.*;
-import com.esri.arcgis.geometry.ISpatialReference;
-import com.esri.arcgis.system.*;
+//import com.esri.arcgis.geometry.*;
+//import com.esri.arcgis.geometry.ISpatialReference;
+//import com.esri.arcgis.system.*;
 import org.codehaus.jettison.json.JSONArray;
 
 import com.google.gson.JsonArray;
@@ -79,7 +79,7 @@ public class BuildingListJsonDeserializer implements
 
 			double lat = 0;
 			double lng = 0;
-			Envelope env;
+//			Envelope env;
 			
 			//TODO: geographische Mitte berechnen
 			lat = geometryElements.get(0).getAsJsonArray().get(0)
@@ -90,44 +90,44 @@ public class BuildingListJsonDeserializer implements
 			
 			
 		      // Create a point with Geographic coordinates...
-		      Point point;
-			try {
-				point = new Point();
-			
-		      point.putCoords(-100.0, 40.0);
-
-		      System.out.println("Original coordinates: " + point.getX() + "," + point.getY());
-
-		      // Create the SpatialReferenceEnvironment...
-		      SpatialReferenceEnvironment spatialReferenceEnvironment = new SpatialReferenceEnvironment();
-
-		      // Apply the initial spatial reference...
-		      ISpatialReference geographicCoordinateSystem = spatialReferenceEnvironment
-		          .createGeographicCoordinateSystem(esriSRGeoCSType.esriSRGeoCS_NAD1927);
-		      point.setSpatialReferenceByRef(geographicCoordinateSystem);
-
-		      // Create the output projected coordinate system...
-		      ISpatialReference projectedCoordinateSystem = spatialReferenceEnvironment
-		          .createProjectedCoordinateSystem(esriSRProjCSType.esriSRProjCS_NAD1983UTM_13N);
-
-		      // Create the GeoTransformation...
-		      IGeoTransformation iGeoTransformation = (IGeoTransformation) spatialReferenceEnvironment
-		          .createGeoTransformation(esriSRGeoTransformationType.esriSRGeoTransformation_NAD1927_To_WGS1984_5);
-
-		      // Project the point...
-		      point.projectEx(projectedCoordinateSystem, esriTransformDirection.esriTransformForward, iGeoTransformation,
-		          false, 0.0, 0.0);
-		      System.out.println("Projected coordinates: " + point.getX() + " , " + point.getY());
-			
-			
-			} catch (UnknownHostException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
+//		      Point point;
+//			try {
+//				point = new Point();
+//			
+//		      point.putCoords(-100.0, 40.0);
+//
+//		      System.out.println("Original coordinates: " + point.getX() + "," + point.getY());
+//
+//		      // Create the SpatialReferenceEnvironment...
+//		      SpatialReferenceEnvironment spatialReferenceEnvironment = new SpatialReferenceEnvironment();
+//
+//		      // Apply the initial spatial reference...
+//		      ISpatialReference geographicCoordinateSystem = spatialReferenceEnvironment
+//		          .createGeographicCoordinateSystem(esriSRGeoCSType.esriSRGeoCS_NAD1927);
+//		      point.setSpatialReferenceByRef(geographicCoordinateSystem);
+//
+//		      // Create the output projected coordinate system...
+//		      ISpatialReference projectedCoordinateSystem = spatialReferenceEnvironment
+//		          .createProjectedCoordinateSystem(esriSRProjCSType.esriSRProjCS_NAD1983UTM_13N);
+//
+//		      // Create the GeoTransformation...
+//		      IGeoTransformation iGeoTransformation = (IGeoTransformation) spatialReferenceEnvironment
+//		          .createGeoTransformation(esriSRGeoTransformationType.esriSRGeoTransformation_NAD1927_To_WGS1984_5);
+//
+//		      // Project the point...
+//		      point.projectEx(projectedCoordinateSystem, esriTransformDirection.esriTransformForward, iGeoTransformation,
+//		          false, 0.0, 0.0);
+//		      System.out.println("Projected coordinates: " + point.getX() + " , " + point.getY());
+//			
+//			
+//			} catch (UnknownHostException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//			
 			
 			
 			
