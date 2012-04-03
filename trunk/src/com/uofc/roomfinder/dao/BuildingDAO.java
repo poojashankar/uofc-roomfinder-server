@@ -2,7 +2,6 @@ package com.uofc.roomfinder.dao;
 
 import java.util.List;
 
-import com.uofc.roomfinder.entities.Annotation;
 import com.uofc.roomfinder.entities.Building;
 
 /**

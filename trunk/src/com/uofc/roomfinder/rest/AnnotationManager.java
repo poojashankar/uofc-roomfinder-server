@@ -10,6 +10,7 @@ import javax.ws.rs.core.MediaType;
 
 import com.uofc.roomfinder.dao.AnnotationDAO;
 import com.uofc.roomfinder.dao.AnnotationDAOImpl;
+import com.uofc.roomfinder.dao.BuildingDAOImpl;
 import com.uofc.roomfinder.entities.Annotation;
 import com.uofc.roomfinder.entities.AnnotationList;
 
@@ -32,7 +33,8 @@ public class AnnotationManager {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/ids/{annotationIds}")
-	public String getAnnotationByIds(@PathParam("annotationIds") String annotationIds) {
+	public String getAnnotationByIds(
+			@PathParam("annotationIds") String annotationIds) {
 
 		// Split into long array
 		String[] arrAnnotationIds = annotationIds.split(",");
@@ -54,11 +56,20 @@ public class AnnotationManager {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/cat/{category}")
 	public String getAnnotationByCategory(@PathParam("category") String category) {
-		// get annotation package
-		AnnotationList annotationPackage = annotationDao.findByCategory(category);
+
+		AnnotationList annotationList = new AnnotationList();
+
+		if (category.equals("buildings")) {
+			annotationList = new BuildingDAOImpl().getAllBuildingsAsAnnotationList();
+		} else {
+
+			// get annotation package
+			annotationList = annotationDao.findByCategory(category);
+
+		}
 
 		// and return it as JSON
-		return annotationPackage.toJsonString();
+		return annotationList.toJsonString();
 	}
 
 }
