@@ -106,7 +106,6 @@ public class AnnotationDAOImpl extends GenericDAOImpl<Annotation, Long> implemen
 	/**
 	 * returns a single Annotation with given ID
 	 */
-	@Override
 	public Annotation findByID(Long id) {
 
 		Annotation annotation = null;
@@ -148,7 +147,6 @@ public class AnnotationDAOImpl extends GenericDAOImpl<Annotation, Long> implemen
 	 * 
 	 * @returns an annotation package with all those annotations
 	 */
-	@Override
 	public AnnotationList findByIds(Long... ids) {
 		if (ids.length < 1)
 			return null;
@@ -206,7 +204,6 @@ public class AnnotationDAOImpl extends GenericDAOImpl<Annotation, Long> implemen
 	 * 
 	 * @returns an annotation package with all those annotations
 	 */
-	@Override
 	public AnnotationList findByCategory(String category) {
 		Annotation annotation = null;
 		AnnotationList annotationPackage = new AnnotationList();
@@ -244,7 +241,6 @@ public class AnnotationDAOImpl extends GenericDAOImpl<Annotation, Long> implemen
 	}
 	
 
-	@Override
 	public List<Annotation> findNearbyAnnotations(Coordinate currentPosition) {
 		// TODO Auto-generated method stub
 		return null;

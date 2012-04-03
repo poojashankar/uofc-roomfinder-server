@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,6 +14,8 @@ import org.apache.commons.dbutils.DbUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.uofc.roomfinder.entities.Annotation;
+import com.uofc.roomfinder.entities.AnnotationList;
 import com.uofc.roomfinder.entities.Building;
 import com.uofc.roomfinder.util.ConnectionFactory;
 import com.uofc.roomfinder.util.UrlReader;
@@ -31,14 +34,14 @@ import com.uofc.roomfinder.util.gson.BuildingListJsonDeserializer;
  * 
  * @author lauteb
  */
-public class BuildingDAOImpl extends GenericDAOImpl<Building, Long> implements BuildingDAO {
+public class BuildingDAOImpl extends GenericDAOImpl<Building, Long> implements
+		BuildingDAO {
 
 	public static final String BUILDING_NAME_COL = "SDE.DBO.Building_Info.BLDG_NAME";
 	public static final String BUILDING_ADDRESS_COL = "SDE.DBO.Building_Info.ADDRESS1";
 	public static final String BUILDING_USE_COL = "SDE.DBO.Building_Info.BLDG_USE";
 	public static final String BUILDING_ID_COL = "SDE.DBO.Building_Footprint.BLD_ID";
 
-	@Override
 	public List<Building> findBuildingsByName(String name) {
 		List<Building> buildings = new LinkedList<Building>();
 
@@ -55,7 +58,8 @@ public class BuildingDAOImpl extends GenericDAOImpl<Building, Long> implements B
 			for (String singleSearchString : splittedSearchString) {
 				searchStringbuilder.append(singleSearchString + "%");
 			}
-			buildings.addAll(searchDB4Buildings(searchStringbuilder.toString()));
+			buildings
+					.addAll(searchDB4Buildings(searchStringbuilder.toString()));
 		}
 
 		return buildings;
@@ -102,21 +106,27 @@ public class BuildingDAOImpl extends GenericDAOImpl<Building, Long> implements B
 	}
 
 	/**
-	 * loads all buildings out of the ArcGIS MapServer building layer and copies them into the mysql database
+	 * loads all buildings out of the ArcGIS MapServer building layer and copies
+	 * them into the mysql database
 	 */
-	@Override
 	public int updateBuildingTable() {
-		String whereClause = "SDE.DBO.Building_Info.BLDG_ID like '%'";
+		String whereClause = "SDE.DBO.Building_Info.BLDG_ID like 'ICT'"; //TODO: set to %
 		String result = getJsonFromArcGisLayer(whereClause);
 		// System.out.println(result);
 
 		Type listType = new TypeToken<List<Building>>() {
 		}.getType();
-		Gson gson = new GsonBuilder().registerTypeAdapter(listType, new BuildingListJsonDeserializer()).serializeNulls().create();
+		Gson gson = new GsonBuilder()
+				.registerTypeAdapter(listType,
+						new BuildingListJsonDeserializer()).serializeNulls()
+				.create();
 		List<Building> buildingList = gson.fromJson(result, listType);
 
 		for (Building building : buildingList) {
-			System.out.println(building.getName() + " - " + building.getName_2() + " - " + building.getAbbreviation());
+			System.out
+					.println(building.getName() + " - " + building.getName_2()
+							+ " - " + building.getAbbreviation());
+			this.save(building);
 		}
 
 		// tem.out.println("size: " + buildingList.size());
@@ -126,7 +136,8 @@ public class BuildingDAOImpl extends GenericDAOImpl<Building, Long> implements B
 	}
 
 	/**
-	 * helper method for accessing the REST service of the ArcGIS building MapServer
+	 * helper method for accessing the REST service of the ArcGIS building
+	 * MapServer
 	 * 
 	 * @param whereClause
 	 * @return
@@ -137,10 +148,11 @@ public class BuildingDAOImpl extends GenericDAOImpl<Building, Long> implements B
 		final String ARCGIS_BUILDING_LAYER = "0";
 		final String ARCGIS_BUILDING_RETURN_FIELDS = "SDE.DBO.Building_Info.BLDG_NAME,+SDE.DBO.Building_Info.ADDRESS1,+SDE.DBO.Building_Info.BLDG_USE,+ SDE.DBO.Building_Footprint.BLD_ID";
 
-		String returnGeometry = "false";
+		String returnGeometry = "true";
 
 		// build up URL
-		String queryUrl = ARCGIS_BUILDING_MAPSERVER + ARCGIS_BUILDING_LAYER + "/";
+		String queryUrl = ARCGIS_BUILDING_MAPSERVER + ARCGIS_BUILDING_LAYER
+				+ "/";
 		queryUrl += "query?text=&geometry=&geometryType=esriGeometryPoint&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&objectIds=&time=&returnCountOnly=false&returnIdsOnly=false&returnGeometry="
 				+ returnGeometry + "&maxAllowableOffset=&outSR=";
 		queryUrl += "&where=" + whereClause;
@@ -153,7 +165,8 @@ public class BuildingDAOImpl extends GenericDAOImpl<Building, Long> implements B
 	@Override
 	public boolean save(Building building) {
 
-		// if a dataset exists with abbreviation update, else insert an new dataset
+		// if a dataset exists with abbreviation update, else insert an new
+		// dataset
 		if (this.findByAbbreviation(building.getAbbreviation()) == null) {
 			return this.insert(building);
 		} else {
@@ -161,7 +174,14 @@ public class BuildingDAOImpl extends GenericDAOImpl<Building, Long> implements B
 		}
 	}
 
+	/**
+	 * build and execute update statement
+	 * 
+	 * @param building
+	 * @return
+	 */
 	private boolean update(Building building) {
+
 		Connection conn = null;
 		PreparedStatement prepStmt = null;
 		ResultSet rs = null;
@@ -169,7 +189,7 @@ public class BuildingDAOImpl extends GenericDAOImpl<Building, Long> implements B
 		try {
 			conn = ConnectionFactory.getInstance().getConnection();
 
-			// insert sql
+			// update sql
 			String sql = "UPDATE tbl_buildings SET abbreviation = abbreviation";
 
 			if (building.getName() != null)
@@ -192,7 +212,7 @@ public class BuildingDAOImpl extends GenericDAOImpl<Building, Long> implements B
 
 			sql += " WHERE abbreviation = ?";
 
-			//prepare stmt and fill variables
+			// prepare stmt and fill variables
 			int i = 1;
 			prepStmt = conn.prepareStatement(sql);
 
@@ -214,8 +234,8 @@ public class BuildingDAOImpl extends GenericDAOImpl<Building, Long> implements B
 
 			if (building.getCenterY() != null)
 				prepStmt.setString(i++, building.getCenterY());
-			
-			//set where clause
+
+			// set where clause
 			prepStmt.setString(i++, building.getAbbreviation());
 
 			// exec stmt
@@ -243,6 +263,11 @@ public class BuildingDAOImpl extends GenericDAOImpl<Building, Long> implements B
 	 * @return
 	 */
 	private boolean insert(Building building) {
+
+		// building_name in database is a not_null column
+		if (building.getName() != null)
+			return false;
+
 		Connection conn = null;
 		PreparedStatement prepStmt = null;
 		ResultSet rs = null;
@@ -321,7 +346,6 @@ public class BuildingDAOImpl extends GenericDAOImpl<Building, Long> implements B
 	/**
 	 * returns a single Building by given abbreviation
 	 */
-	@Override
 	public Building findByAbbreviation(String abbreviation) {
 
 		Building building = null;
@@ -357,5 +381,46 @@ public class BuildingDAOImpl extends GenericDAOImpl<Building, Long> implements B
 		}
 		return null;
 
+	}
+
+	public AnnotationList getAllBuildingsAsAnnotationList() {
+		Annotation annotation = null;
+		AnnotationList annotationPackage = new AnnotationList();
+
+		Connection conn = null;
+		PreparedStatement prepStmt = null;
+		ResultSet rs = null;
+
+		try {
+			conn = ConnectionFactory.getInstance().getConnection();
+			String sql = "SELECT * FROM tbl_buildings WHERE centerX IS NOT NULL";
+			prepStmt = conn.prepareStatement(sql);
+			rs = prepStmt.executeQuery();
+
+			// fill DTO
+			while (rs.next()) {
+				annotation = new Annotation();
+				annotation.setLatitude(rs.getString("CENTERX"));
+				annotation.setLongitude(rs.getString("CENTERY"));
+				annotation.setText(rs.getString("BUILDING_NAME"));
+				annotation.setDistance("0");
+				annotation.setElevation("0");
+				annotation.setHas_detail_page(0);
+				annotation.setWebpage("");
+				annotation.setTimestamp(new Date());
+				
+				annotationPackage.addAnnotation(annotation);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+		} finally {
+			DbUtils.closeQuietly(rs);
+			DbUtils.closeQuietly(prepStmt);
+			DbUtils.closeQuietly(conn);
+		}
+
+		return annotationPackage;
 	}
 }

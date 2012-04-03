@@ -12,12 +12,10 @@ public abstract class GenericDAOImpl<T, ID extends Serializable> implements Gene
 	// // return HibernateUtil.getSession();
 	// }
 
-	@Override
 	public boolean save(T entity){
 		return false;
 	};
 
-	@Override
 	public boolean delete(T entity) {
 		return false;
 	}
