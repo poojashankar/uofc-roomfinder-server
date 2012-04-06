@@ -265,7 +265,7 @@ public class BuildingDAOImpl extends GenericDAOImpl<Building, Long> implements
 	private boolean insert(Building building) {
 
 		// building_name in database is a not_null column
-		if (building.getName() != null)
+		if (building.getName() == null)
 			return false;
 
 		Connection conn = null;
