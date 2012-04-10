@@ -26,27 +26,30 @@ public class RouteJsonDeserializer implements JsonDeserializer<Route> {
 
 		Route newRoute = new Route();
 
-		JsonObject directions = jsonObj.get("directions").getAsJsonArray().get(0).getAsJsonObject();
-		JsonArray featureArr = directions.get("features").getAsJsonArray();
-		
-		newRoute.setRouteName(directions.get("routeName").getAsString());
-		newRoute.setLength(directions.get("summary").getAsJsonObject().get("totalLength").getAsDouble());
-				
-		JsonObject attributes;
+		try {
+			JsonObject directions = jsonObj.get("directions").getAsJsonArray().get(0).getAsJsonObject();
+			JsonArray featureArr = directions.get("features").getAsJsonArray();
 
-		// iterate each feature
-		for (JsonElement feature : featureArr) {
-			attributes = feature.getAsJsonObject().get("attributes").getAsJsonObject();
-			newRoute.getRouteFeatures().add(new RouteFeature(attributes.get("length").getAsDouble(), attributes.get("text").getAsString()));
-		}
+			newRoute.setRouteName(directions.get("routeName").getAsString());
+			newRoute.setLength(directions.get("summary").getAsJsonObject().get("totalLength").getAsDouble());
 
-		
-		JsonArray pathPointArr = jsonObj.get("routes").getAsJsonObject().get("features").getAsJsonArray().get(0).getAsJsonObject().get("geometry")
-				.getAsJsonObject().get("paths").getAsJsonArray().get(0).getAsJsonArray();
+			JsonObject attributes;
 
-		// iterate each path points
-		for (JsonElement point : pathPointArr) {
-			newRoute.getPath().add(new RoutePoint(point.getAsJsonArray().get(0).getAsDouble(), point.getAsJsonArray().get(1).getAsDouble()));
+			// iterate each feature
+			for (JsonElement feature : featureArr) {
+				attributes = feature.getAsJsonObject().get("attributes").getAsJsonObject();
+				newRoute.getRouteFeatures().add(new RouteFeature(attributes.get("length").getAsDouble(), attributes.get("text").getAsString()));
+			}
+
+			JsonArray pathPointArr = jsonObj.get("routes").getAsJsonObject().get("features").getAsJsonArray().get(0).getAsJsonObject().get("geometry")
+					.getAsJsonObject().get("paths").getAsJsonArray().get(0).getAsJsonArray();
+
+			// iterate each path points
+			for (JsonElement point : pathPointArr) {
+				newRoute.getPath().add(new RoutePoint(point.getAsJsonArray().get(0).getAsDouble(), point.getAsJsonArray().get(1).getAsDouble()));
+			}
+		} catch (Exception ex) {
+			return newRoute;
 		}
 		return newRoute;
 	}

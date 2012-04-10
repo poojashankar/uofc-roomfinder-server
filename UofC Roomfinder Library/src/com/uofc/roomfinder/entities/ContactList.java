@@ -24,14 +24,16 @@ public class ContactList extends LinkedList<Contact> implements List<Contact>{
 	 */
 	public ContactList(String jsonString) {
 		this();
-
+		
 		// deserialize JSON String
 		Gson gson = new GsonBuilder().serializeNulls().create();
 		List<Contact> newContactList = gson.fromJson(jsonString, new TypeToken<List<Contact>>(){}.getType());
 		
 		//add each object to list
 		for (Contact newContact : newContactList){
-			this.add(newContact);
+			if (newContact.getRoomNumber().size() > 0){
+				this.add(newContact);
+			}
 		}
 	}
 
