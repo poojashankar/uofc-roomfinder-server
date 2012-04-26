@@ -1,11 +1,13 @@
 package com.uofc.roomfinder.rest;
 
+import java.util.Date;
 import java.util.Vector;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import com.uofc.roomfinder.dao.AnnotationDAO;
@@ -28,6 +30,20 @@ public class AnnotationManager {
 
 		// get json representation ob object
 		return annotation.toJsonString();
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/withdata")
+	public String getAnnotationWithPredefinedData(@QueryParam("x") String x, @QueryParam("y") String y, @QueryParam("z") String z, @QueryParam("text") String text) {
+		// get annotation from db
+		Annotation annotation = new Annotation(0l, y, x, z, text, "", 0, null, new Date());
+
+		AnnotationList annotationPackage = new AnnotationList();
+		annotationPackage.addAnnotation(annotation);
+		
+		// get json representation ob object
+		return annotationPackage.toJsonString();
 	}
 
 	@GET

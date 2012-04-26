@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 
 public class UrlReader {
@@ -21,30 +22,7 @@ public class UrlReader {
 		int cp;
 
 		try {
-			// escape URL
-			stringUrl = stringUrl.replace("http://", "");
-			String hostname = stringUrl.split("/")[0];
-			String path = stringUrl.replace(hostname, "");
-
-			// query params set?
-			String query = null;
-			if (path.indexOf('?') != -1) {				
-				query = path.substring(path.indexOf('?')+1, path.length());
-				path = path.split("\\?")[0];
-			}
-
-			// cut off port (if set)
-			int port = 80;
-			if (hostname.indexOf(':') != -1) {
-				port = Integer.parseInt(hostname.substring(hostname.indexOf(':')+1, hostname.length()));
-				hostname = hostname.substring(0, hostname.indexOf(':'));
-			}
-			
-			//System.out.println("splitted: " + hostname + "    :    " + port + " - " + path + "    ?     " + query);
-			//System.out.println(new URI("http", null, hostname, 80, path, query, null).toURL());
-
-			// open stream for URL
-			is = new URI("http", null, hostname, port, path, query, null).toURL().openStream();
+			is = stringToUri(stringUrl).toURL().openStream();
 			BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
 
 			// read whole page
@@ -67,5 +45,32 @@ public class UrlReader {
 			}
 		}
 		return null;
+	}
+
+	public static URI stringToUri(String stringUrl) throws IOException, MalformedURLException, URISyntaxException {
+		// escape URL
+		stringUrl = stringUrl.replace("http://", "");
+		String hostname = stringUrl.split("/")[0];
+		String path = stringUrl.replace(hostname, "");
+
+		// query params set?
+		String query = null;
+		if (path.indexOf('?') != -1) {				
+			query = path.substring(path.indexOf('?')+1, path.length());
+			path = path.split("\\?")[0];
+		}
+
+		// cut off port (if set)
+		int port = 80;
+		if (hostname.indexOf(':') != -1) {
+			port = Integer.parseInt(hostname.substring(hostname.indexOf(':')+1, hostname.length()));
+			hostname = hostname.substring(0, hostname.indexOf(':'));
+		}
+		
+		//System.out.println("splitted: " + hostname + "    :    " + port + " - " + path + "    ?     " + query);
+		//System.out.println(new URI("http", null, hostname, 80, path, query, null).toURL());
+
+		// open stream for URL
+		return new URI("http", null, hostname, port, path, query, null);
 	}
 }
