@@ -1,5 +1,6 @@
 package com.uofc.roomfinder.dao;
 
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 
 import java.util.List;
@@ -116,6 +117,29 @@ public class ContactDAOImplTest {
 		List<Contact> result = contactDao.findContactsBuildingAndRoom("math 680");
 
 		assertEquals(result.get(0).getRoomNumber().get(0), "MS680");
+	}
+	
+	@Test
+	public void findContactByBuildingAndRoom7() {
+		//also rooms without contact information should be found (search on ArcGIS server)
+		List<Contact> result = contactDao.findContacts("ict117");
+
+		assertEquals(result.get(0).getRoomNumber().get(0), "ICT117");
+	}
+	
+	@Test
+	public void findContactByBuildingAndRoom8() {
+		//also rooms without contact information should be found (search on ArcGIS server)
+		List<Contact> result = contactDao.findContacts("ict 117");
+
+		assertEquals(result.get(0).getRoomNumber().get(0), "ICT117");
+	}
+	
+	@Test
+	public void findContactByBuildingAndRoom9() {
+		List<Contact> result = contactDao.findContacts("ict 1178");
+
+		assertTrue(result.size() == 0);
 	}
 
 }

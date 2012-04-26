@@ -12,6 +12,9 @@
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/Users/benjaminlautenschlaeger/Documents/workspace/UofC Roomfinder Server/WebContent/WEB-INF/lib/commons-dbutils-1.4.jar"/>
+	<classpathentry kind="lib" path="/Users/benjaminlautenschlaeger/Documents/workspace/UofC Roomfinder Server/WebContent/WEB-INF/lib/gson-2.1.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/UofC Roomfinder Library"/>
+	<classpathentry kind="lib" path="/UofC Roomfinder Library/bin/com"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

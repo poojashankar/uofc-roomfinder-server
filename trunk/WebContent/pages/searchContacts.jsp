@@ -66,6 +66,10 @@
 					<td><a href="/UofC_Roomfinder_Server/pages/searchContacts.jsp?searchString=680%20math">./searchContacts.jsp?searchString=680 math</a>
 					</td>
 				</tr>
+				<tr>
+					<td><a href="/UofC_Roomfinder_Server/pages/searchContacts.jsp?searchString=ict117">./searchContacts.jsp?searchString=ict117</a>
+					</td>
+				</tr>
 			</tbody>
 		</table>
 	</div>
