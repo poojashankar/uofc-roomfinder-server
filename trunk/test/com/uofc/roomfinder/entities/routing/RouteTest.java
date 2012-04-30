@@ -27,7 +27,8 @@ public class RouteTest {
 	public void tearDown() throws Exception {
 	}
 
-	@Test
+	//@Test
+	//new version is without REST service -> no need of JSON deserialization
 	public void getRouteStopsJSONtest() {
 		Route testRoute = new Route(new RoutePoint(START_X, START_Y), new RoutePoint(END_X, END_Y));
 		Assert.assertEquals(JSON_STRING.replace(" ", ""), testRoute.getStopsAsJsonString().replace("\n", "").replace(" ", ""));
@@ -37,9 +38,16 @@ public class RouteTest {
 	public void routeTest() {
 		Route testRoute = new Route(new RoutePoint(START_X, START_Y), new RoutePoint(END_X, END_Y));
 		Assert.assertTrue(testRoute.getPath().size() > 0);
+		System.out.println(testRoute.getPath().size());
 		Assert.assertTrue(testRoute.getRouteFeatures().size() > 0);
+		System.out.println(testRoute.getRouteFeatures().size());
 		Assert.assertTrue(testRoute.getRouteName() != null);
-		Assert.assertTrue(testRoute.getLength() != 0);		
+		System.out.println(testRoute.getRouteName());
+		System.out.println(testRoute.getLength());
+		System.out.println(testRoute.getRouteFeatures().get(2).length);
+		System.out.println(testRoute.getLength() > 0.0);
+		Assert.assertTrue(testRoute.getLength() > 0.0);
+		
 	}
 	
 	@Test
@@ -53,8 +61,10 @@ public class RouteTest {
 	public void routeFeatureTest() {
 		Route testRoute = new Route(new RoutePoint(START_X, START_Y), new RoutePoint(END_X, END_Y));
 		Assert.assertTrue(testRoute.getRouteFeatures().get(2).text != null);
+		System.out.println(testRoute.getRouteFeatures().get(2).text);
 		Assert.assertFalse(testRoute.getRouteFeatures().get(2).text.equals(""));
 		Assert.assertTrue(testRoute.getRouteFeatures().get(2).getLength() != 0);		
 	}
+	
 
 }
