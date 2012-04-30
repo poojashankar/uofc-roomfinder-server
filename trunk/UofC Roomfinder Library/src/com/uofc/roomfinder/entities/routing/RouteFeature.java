@@ -5,6 +5,12 @@ public class RouteFeature {
 	String text;
 	
 	//constructor
+	public RouteFeature() {
+		super();
+		this.length = 0;
+		this.text = "";
+	}
+	
 	public RouteFeature(double length, String text) {
 		super();
 		this.length = length;
