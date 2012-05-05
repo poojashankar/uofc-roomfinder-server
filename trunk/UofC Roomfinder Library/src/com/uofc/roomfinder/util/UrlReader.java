@@ -18,12 +18,13 @@ public class UrlReader {
 	 */
 	public static String readFromURL(String stringUrl) {
 		InputStream is = null;
+		BufferedReader rd = null;
 		StringBuilder sb = new StringBuilder();
 		int cp;
 
 		try {
 			is = stringToUri(stringUrl).toURL().openStream();
-			BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
+			rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
 
 			// read whole page
 			while ((cp = rd.read()) != -1) {
@@ -38,6 +39,12 @@ public class UrlReader {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
+			try {
+				if (rd != null)
+					rd.close();
+			} catch (IOException e) {
+			}
+			
 			try {
 				if (is != null)
 					is.close();

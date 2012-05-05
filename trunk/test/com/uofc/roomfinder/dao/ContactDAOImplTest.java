@@ -1,8 +1,6 @@
 package com.uofc.roomfinder.dao;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
-
 import java.util.List;
 
 import org.junit.After;

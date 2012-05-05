@@ -42,6 +42,7 @@ public class BuildingDAOImpl extends GenericDAOImpl<Building, Long> implements
 	public static final String BUILDING_USE_COL = "SDE.DBO.Building_Info.BLDG_USE";
 	public static final String BUILDING_ID_COL = "SDE.DBO.Building_Footprint.BLD_ID";
 
+	@Override
 	public List<Building> findBuildingsByName(String name) {
 		List<Building> buildings = new LinkedList<Building>();
 
@@ -109,6 +110,7 @@ public class BuildingDAOImpl extends GenericDAOImpl<Building, Long> implements
 	 * loads all buildings out of the ArcGIS MapServer building layer and copies
 	 * them into the mysql database
 	 */
+	@Override
 	public int updateBuildingTable() {
 		String whereClause = "SDE.DBO.Building_Info.BLDG_ID like 'ICT'"; //TODO: set to %
 		String result = getJsonFromArcGisLayer(whereClause);
@@ -346,6 +348,7 @@ public class BuildingDAOImpl extends GenericDAOImpl<Building, Long> implements
 	/**
 	 * returns a single Building by given abbreviation
 	 */
+	@Override
 	public Building findByAbbreviation(String abbreviation) {
 
 		Building building = null;

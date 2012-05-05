@@ -24,22 +24,15 @@ public class RouteJsonDeserializer implements JsonDeserializer<Route> {
 	public Route deserialize(JsonElement json, Type arg1, JsonDeserializationContext arg2) throws JsonParseException {
 		JsonObject jsonObj = json.getAsJsonObject();
 
-		
 		Route newRoute = new Route();
 
 		try {
-			System.out.println("kkk1");
 			JsonObject directions = jsonObj.get("directions").getAsJsonArray().get(0).getAsJsonObject();
 			JsonArray featureArr = directions.get("features").getAsJsonArray();
-
-			System.out.println("kkk2");
 			newRoute.setRouteName(directions.get("routeName").getAsString());
-			//newRoute.setLength(directions.get("summary").getAsJsonObject().get("totalLength").getAsDouble());
 
 			JsonObject attributes;
 
-			System.out.println("kkk");
-			
 			// iterate each feature
 			for (JsonElement feature : featureArr) {
 				attributes = feature.getAsJsonObject().get("attributes").getAsJsonObject();
@@ -49,12 +42,12 @@ public class RouteJsonDeserializer implements JsonDeserializer<Route> {
 			JsonArray pathPointArr = jsonObj.get("routes").getAsJsonObject().get("features").getAsJsonArray().get(0).getAsJsonObject().get("geometry")
 					.getAsJsonObject().get("paths").getAsJsonArray().get(0).getAsJsonArray();
 
-			System.out.println("kkk" + pathPointArr.size());
-			
 			// iterate each path points
 			for (JsonElement point : pathPointArr) {
-				
-				newRoute.getPath().add(new RoutePoint(point.getAsJsonArray().get(0).getAsDouble(), point.getAsJsonArray().get(1).getAsDouble()));
+
+				newRoute.getPath().add(
+						new RoutePoint(point.getAsJsonArray().get(0).getAsDouble(), point.getAsJsonArray().get(1).getAsDouble(), point.getAsJsonArray().get(2)
+								.getAsDouble()));
 			}
 		} catch (Exception ex) {
 			return newRoute;

@@ -1,6 +1,5 @@
 package com.uofc.roomfinder.dao;
 
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
@@ -34,6 +33,7 @@ public class ContactDAOImpl implements ContactDAO {
 	/**
 	 * searches the LDAP directory for buildings AND names
 	 */
+	@Override
 	public ContactList findContacts(String searchString) {
 
 		ContactList contacts = new ContactList();
@@ -120,6 +120,7 @@ public class ContactDAOImpl implements ContactDAO {
 	/**
 	 * searches the LDAP directory for entries (field: common name)
 	 */
+	@Override
 	public ContactList findContactsByName(String searchString) {
 		ContactList contacts = new ContactList();
 
@@ -145,6 +146,7 @@ public class ContactDAOImpl implements ContactDAO {
 	/**
 	 * searches the LDAP directory for entries (field: roomNumber)
 	 */
+	@Override
 	public ContactList findContactsBuildingAndRoom(String searchString) {
 		ContactList contacts = new ContactList();
 
