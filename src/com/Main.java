@@ -1,7 +1,5 @@
 package com;
 
-import java.io.IOException;
-
 //import com.esri.arcgis.interop.AutomationException;
 //import com.esri.arcgis.server.IServerContext;
 //import com.esri.arcgis.server.IServerObjectManager;

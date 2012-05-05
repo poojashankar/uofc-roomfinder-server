@@ -1,15 +1,12 @@
 package com.uofc.roomfinder.util.gson;
 
 import java.lang.reflect.Type;
-import java.text.SimpleDateFormat;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
-import com.uofc.roomfinder.entities.Annotation;
 import com.uofc.roomfinder.entities.routing.Route;
 import com.uofc.roomfinder.entities.routing.RouteFeature;
 import com.uofc.roomfinder.entities.routing.RoutePoint;

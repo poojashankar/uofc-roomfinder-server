@@ -1,9 +1,6 @@
 package com.uofc.roomfinder.rest;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-
-import java.io.IOException;
 
 import javax.ws.rs.core.MediaType;
 
@@ -11,14 +8,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.test.framework.JerseyTest;
 import com.sun.jersey.test.framework.WebAppDescriptor;
-import com.uofc.roomfinder.entities.Annotation;
-import com.uofc.roomfinder.entities.AnnotationList;
-import com.uofc.roomfinder.util.gson.AnnotationJsonDeserializer;
 
 public class RouteTest extends JerseyTest {
 

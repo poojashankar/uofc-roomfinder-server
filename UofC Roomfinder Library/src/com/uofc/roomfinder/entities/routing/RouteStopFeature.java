@@ -34,4 +34,14 @@ public class RouteStopFeature {
 		this.geometry = geometry;
 		this.attributes = attributes;
 	}
+
+	public RoutePoint getGeometry() {
+		return geometry;
+	}
+
+	public RouteStopAttributes getAttributes() {
+		return attributes;
+	}
+	
+	
 }
