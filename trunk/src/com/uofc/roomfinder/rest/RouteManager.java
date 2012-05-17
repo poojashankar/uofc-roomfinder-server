@@ -32,30 +32,55 @@ import com.uofc.roomfinder.util.gson.RouteJsonSerializer;
 @Path("/route")
 public class RouteManager {
 
+	private static final int MAX_ROUTE_MODIFICATIONS = 10;
+
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getAnnotationById(@QueryParam("x1") double x1, @QueryParam("y1") double y1, @QueryParam("z1") double z1,@QueryParam("x2") double x2, @QueryParam("y2") double y2, @QueryParam("z2") double z2, @QueryParam("impedance") String impedance) {
-					
-		//test points
-		//RoutePoint start = new RoutePoint(701192.8861, 5662659.7696, 16.0);
-		//RoutePoint end = new RoutePoint(701012.8757, 5662665.3092, 16.0);
-		
-		//create points from params
+	public String getAnnotationById(@QueryParam("x1") double x1, @QueryParam("y1") double y1, @QueryParam("z1") double z1, @QueryParam("x2") double x2,
+			@QueryParam("y2") double y2, @QueryParam("z2") double z2, @QueryParam("impedance") String impedance) {
+
+		// test points
+		// RoutePoint start = new RoutePoint(701192.8861, 5662659.7696, 16.0);
+		// RoutePoint end = new RoutePoint(701012.8757, 5662665.3092, 16.0);
+
+		// create points from params
 		RoutePoint start = new RoutePoint(x1, y1, z1);
-		RoutePoint end = new RoutePoint(x2, y2, z2);		
-		
-		//get route
+		RoutePoint end = new RoutePoint(x2, y2, z2);
+
+		// get route
+
+		// workaround to get the route always starting at the correct layer
 		Route newRoute = getSoapRoute(start, end, impedance);
-		
-		//convert it to JSON
+
+		double zToleranceUp = start.getZ() + 1;
+		double zToleranceDown = start.getZ() - 1;
+		int routeCounter = 1;
+
+		// if the z coordinate is not in the tolerance -> modify x,y and try again
+		while ((newRoute.getPath().get(0).getZ() > zToleranceUp || newRoute.getPath().get(0).getZ() < zToleranceDown) && routeCounter < MAX_ROUTE_MODIFICATIONS) {
+			// produces -1, 1, -2, 2, ....
+			double alternatingOffset = Math.pow(-1, routeCounter) * ((routeCounter + 1) / 2);
+
+			System.out.println("alternate: " + alternatingOffset);
+			RoutePoint newStart = new RoutePoint(start.getX() + alternatingOffset, start.getY() + alternatingOffset, start.getZ());
+			newRoute = getSoapRoute(newStart, end, impedance);
+			routeCounter++;
+		}
+
+		// if route counter = 10, modifying search criteria was not successfull
+		// fall back to first route
+		if ((newRoute.getPath().get(0).getZ() > zToleranceUp || newRoute.getPath().get(0).getZ() < zToleranceDown) && routeCounter == MAX_ROUTE_MODIFICATIONS) {
+			newRoute = getSoapRoute(start, end, impedance);
+		}
+
+		// convert it to JSON
 		Gson gson = new GsonBuilder().registerTypeAdapter(Route.class, new RouteJsonSerializer()).setPrettyPrinting().serializeNulls().create();
 		String json = gson.toJson(newRoute);
 
-		//return JSON route
+		// return JSON route
 		return json;
 	}
-	
-	
+
 	/**
 	 * this method accesses the ArcGIS SOAP web service for routing (NAServer)
 	 * 
@@ -89,8 +114,6 @@ public class RouteManager {
 		newRoute.getStops().getFeatures().add(new RouteStopFeature(start, new RouteStopAttributes("Start", newRoute.getRouteName())));
 		newRoute.getStops().getFeatures().add(new RouteStopFeature(destination, new RouteStopAttributes("Destination", newRoute.getRouteName())));
 
-		System.out.println(newRoute.getStops().getFeatures().size());
-
 		// add stops to route params
 		routeParams.setStops(getStopsAsPropSet(newRoute));
 
@@ -100,12 +123,14 @@ public class RouteManager {
 		// get path geometries
 		PolylineN resultLine = (PolylineN) routeResult.getRouteGeometries()[0];
 
+		System.out.println("number of routes: " + routeResult.getRouteGeometries().length);
+
 		// iterate all path points
 		for (Point point : resultLine.getPathArray()[0].getPointArray()) {
 			PointN pointN = (PointN) point;
 
 			newRoute.getPath().add(new RoutePoint(pointN.getX(), pointN.getY(), pointN.getZ()));
-			// System.out.println("x: " + pointN.getX() + ", y: " + pointN.getY() + ", z: " + pointN.getZ() + "<br>");
+			System.out.println("x: " + pointN.getX() + ", y: " + pointN.getY() + ", z: " + pointN.getZ() + "<br>");
 		}
 
 		// get path directions
@@ -145,7 +170,7 @@ public class RouteManager {
 
 		return newRoute;
 	}
-	
+
 	/**
 	 * helper method to create prop set
 	 * 
@@ -158,9 +183,11 @@ public class RouteManager {
 		PropertySet[] propSets = new PropertySet[2];
 
 		// start point
-		PropertySetProperty prop11 = new PropertySetProperty("x", route.getStops().getFeatures().get(0).getGeometry().getX());// "701192.8861");
-		PropertySetProperty prop12 = new PropertySetProperty("y", route.getStops().getFeatures().get(0).getGeometry().getY());// "5662659.7696");
-		PropertySetProperty prop13 = new PropertySetProperty("z", route.getStops().getFeatures().get(0).getGeometry().getZ());// "0");
+		PropertySetProperty prop11 = new PropertySetProperty("x", route.getStops().getFeatures().get(0).getGeometry().getX());// "701012.8757");
+		PropertySetProperty prop12 = new PropertySetProperty("y", route.getStops().getFeatures().get(0).getGeometry().getY());// "5662665.3092");
+		PropertySetProperty prop13 = new PropertySetProperty("z", route.getStops().getFeatures().get(0).getGeometry().getZ());// "16");
+
+		// System.out.println("value" + prop13.getValue());
 
 		PropertySetProperty[] propArr1 = { prop11, prop12, prop13 };
 		propSets[0] = new PropertySet();

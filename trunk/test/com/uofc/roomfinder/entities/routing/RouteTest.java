@@ -45,8 +45,8 @@ public class RouteTest {
 		System.out.println(testRoute.getRouteName());
 		System.out.println(testRoute.getLength());
 		System.out.println(testRoute.getRouteFeatures().get(2).length);
-		System.out.println(testRoute.getLength() > 0.0);
-		Assert.assertTrue(testRoute.getLength() > 0.0);
+		//System.out.println(testRoute.getLength() > 0.0);
+		//Assert.assertTrue(testRoute.getLength() > 0.0);
 		
 	}
 	
@@ -55,6 +55,14 @@ public class RouteTest {
 		Route testRoute = new Route(new RoutePoint(START_X, START_Y), new RoutePoint(END_X, END_Y));
 		Assert.assertTrue(testRoute.getPath().get(2).getX() != 0);
 		Assert.assertTrue(testRoute.getPath().get(2).getY() != 0);		
+	}
+	
+	@Test
+	public void routePathTest3D() {
+		Route testRoute = new Route(new RoutePoint(START_X, START_Y), new RoutePoint(END_X, END_Y));
+		Assert.assertTrue(testRoute.getPath().get(2).getX() != 0);
+		Assert.assertTrue(testRoute.getPath().get(2).getY() != 0);
+		Assert.assertTrue(testRoute.getPath().get(2).getZ() != 0);
 	}
 	
 	@Test
