@@ -34,8 +34,7 @@ import com.uofc.roomfinder.util.gson.BuildingListJsonDeserializer;
  * 
  * @author lauteb
  */
-public class BuildingDAOImpl extends GenericDAOImpl<Building, Long> implements
-		BuildingDAO {
+public class BuildingDAOImpl extends GenericDAOImpl<Building, Long> implements BuildingDAO {
 
 	public static final String BUILDING_NAME_COL = "SDE.DBO.Building_Info.BLDG_NAME";
 	public static final String BUILDING_ADDRESS_COL = "SDE.DBO.Building_Info.ADDRESS1";
@@ -59,8 +58,7 @@ public class BuildingDAOImpl extends GenericDAOImpl<Building, Long> implements
 			for (String singleSearchString : splittedSearchString) {
 				searchStringbuilder.append(singleSearchString + "%");
 			}
-			buildings
-					.addAll(searchDB4Buildings(searchStringbuilder.toString()));
+			buildings.addAll(searchDB4Buildings(searchStringbuilder.toString()));
 		}
 
 		return buildings;
@@ -107,27 +105,21 @@ public class BuildingDAOImpl extends GenericDAOImpl<Building, Long> implements
 	}
 
 	/**
-	 * loads all buildings out of the ArcGIS MapServer building layer and copies
-	 * them into the mysql database
+	 * loads all buildings out of the ArcGIS MapServer building layer and copies them into the mysql database
 	 */
 	@Override
 	public int updateBuildingTable() {
-		String whereClause = "SDE.DBO.Building_Info.BLDG_ID like 'ICT'"; //TODO: set to %
+		String whereClause = "SDE.DBO.Building_Info.BLDG_ID like 'ICT'"; // TODO: set to %
 		String result = getJsonFromArcGisLayer(whereClause);
 		// System.out.println(result);
 
 		Type listType = new TypeToken<List<Building>>() {
 		}.getType();
-		Gson gson = new GsonBuilder()
-				.registerTypeAdapter(listType,
-						new BuildingListJsonDeserializer()).serializeNulls()
-				.create();
+		Gson gson = new GsonBuilder().registerTypeAdapter(listType, new BuildingListJsonDeserializer()).serializeNulls().create();
 		List<Building> buildingList = gson.fromJson(result, listType);
 
 		for (Building building : buildingList) {
-			System.out
-					.println(building.getName() + " - " + building.getName_2()
-							+ " - " + building.getAbbreviation());
+			System.out.println(building.getName() + " - " + building.getName_2() + " - " + building.getAbbreviation());
 			this.save(building);
 		}
 
@@ -138,8 +130,7 @@ public class BuildingDAOImpl extends GenericDAOImpl<Building, Long> implements
 	}
 
 	/**
-	 * helper method for accessing the REST service of the ArcGIS building
-	 * MapServer
+	 * helper method for accessing the REST service of the ArcGIS building MapServer
 	 * 
 	 * @param whereClause
 	 * @return
@@ -153,8 +144,7 @@ public class BuildingDAOImpl extends GenericDAOImpl<Building, Long> implements
 		String returnGeometry = "true";
 
 		// build up URL
-		String queryUrl = ARCGIS_BUILDING_MAPSERVER + ARCGIS_BUILDING_LAYER
-				+ "/";
+		String queryUrl = ARCGIS_BUILDING_MAPSERVER + ARCGIS_BUILDING_LAYER + "/";
 		queryUrl += "query?text=&geometry=&geometryType=esriGeometryPoint&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&objectIds=&time=&returnCountOnly=false&returnIdsOnly=false&returnGeometry="
 				+ returnGeometry + "&maxAllowableOffset=&outSR=";
 		queryUrl += "&where=" + whereClause;
@@ -411,7 +401,7 @@ public class BuildingDAOImpl extends GenericDAOImpl<Building, Long> implements
 				annotation.setHas_detail_page(0);
 				annotation.setWebpage("");
 				annotation.setTimestamp(new Date());
-				
+
 				annotationPackage.addAnnotation(annotation);
 			}
 
