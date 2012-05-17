@@ -45,14 +45,16 @@ public class RouteJsonDeserializer implements JsonDeserializer<Route> {
 			// iterate each path points
 			for (JsonElement point : pathPointArr) {
 
-				newRoute.getPath().add(
-						new RoutePoint(point.getAsJsonArray().get(0).getAsDouble(), point.getAsJsonArray().get(1).getAsDouble(), point.getAsJsonArray().get(2)
-								.getAsDouble()));
+				// round z-coordinate to 2 digits
+				double zCoordinate = point.getAsJsonArray().get(2).getAsDouble();
+				long tmpZ = (int) Math.round(zCoordinate * 100); // truncates
+				zCoordinate = tmpZ / 100.0;
+
+				newRoute.getPath().add(new RoutePoint(point.getAsJsonArray().get(0).getAsDouble(), point.getAsJsonArray().get(1).getAsDouble(), zCoordinate));
 			}
 		} catch (Exception ex) {
 			return newRoute;
 		}
 		return newRoute;
 	}
-
 }

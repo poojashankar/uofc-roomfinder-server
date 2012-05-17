@@ -37,33 +37,7 @@ public class Route {
 		length = 0.0;
 	}
 
-	public Route(RoutePoint start, RoutePoint destination) {
-		this(start, destination, ROUTING_IMPEDANCE_SHORTEST_PATH);
-	}
-
-	public Route(RoutePoint start, RoutePoint destination, String impedanceAttribute) {
-		this();
-		// add stop features
-		stops.getFeatures().add(new RouteStopFeature(start, new RouteStopAttributes("Start", this.routeName)));
-		stops.getFeatures().add(new RouteStopFeature(destination, new RouteStopAttributes("Destination", this.routeName)));
-
-		System.out.println(start.getX());
-		System.out.println(destination.getX());
-
-		// get JSON object from server
-		// String jsonString = this.getJsonRouteFromServer(impedanceAttribute);
-		String jsonString = this.getJsonRouteFromServer();
-
-		// deserialze JSON String
-		Gson gson = new GsonBuilder().registerTypeAdapter(Route.class, new RouteJsonDeserializer()).serializeNulls().create();
-		Route newRoute = gson.fromJson(jsonString, Route.class);
-
-		this.path = newRoute.getPath();
-		this.routeFeatures = newRoute.getRouteFeatures();
-		this.routeName = newRoute.getRouteName();
-		this.length = newRoute.getLength();
-		this.currentWaypoint = 0;
-	}
+	
 
 	// getter & setter
 	public String getRouteName() {
@@ -174,50 +148,7 @@ public class Route {
 	public RouteStopList getStops() {
 		return stops;
 	}
+
 	
-	
-
-	/**
-	 * returns route from NAServer in JSON format
-	 * 
-	 * uses 'LengthCost' -> shortest way as default impedance!
-	 * 
-	 * @return JSON route
-	 */
-	private String getJsonRouteFromServer() {
-		return getJsonRouteFromServer("Length");
-	}
-
-	private String getJsonRouteFromServer(String impedance) {
-
-		/*
-		 * old REST service (ARCGIS ROUTING REST SERVICE) is not able to process 3D coordinates
-		 * 
-		 * 
-		 * String returnFormat = "pjson";
-		 * 
-		 * String solve_url = "/solve?" + "barriers=&" + "polylineBarriers=&" + "polygonBarriers=&" + "outSR=26911&" + "ignoreInvalidLocations=true&" +
-		 * "accumulateAttributeNames=&" + "restrictionAttributeNames=RestrictedPath&" + "attributeParameterValues=&" + "restrictUTurns=esriNFSBAllowBacktrack&"
-		 * + "useHierarchy=false&" + "returnDirections=true&" + "returnRoutes=true&" + "returnStops=false&" + "returnBarriers=false&" +
-		 * "returnPolylineBarriers=false&" + "returnPolygonBarriers=false&" + "directionsLanguage=en-US&" + "directionsStyleName=NA+Desktop&" +
-		 * "outputLines=esriNAOutputLineTrueShape&" + "findBestSequence=false&" + "preserveFirstStop=true&" + "preserveLastStop=true&" + "useTimeWindows=false&"
-		 * + "startTime=&" + "outputGeometryPrecision=&" + "outputGeometryPrecisionUnits=esriMeters&" + "directionsTimeAttributeName=IndoorCost&" +
-		 * "directionsLengthUnits=esriNAUMeters" + "&f=" + returnFormat + "&impedanceAttributeName=" + impedance;
-		 * 
-		 * String urlToRequest = Constants.NA_SERVER_URL + solve_url + "&stops=" + this.getStopsAsJsonString();
-		 * 
-		 * System.out.println(urlToRequest);
-		 */
-
-		// http://192.168.1.106:8080
-
-		String urlToRequest = "http://ec2-23-20-196-109.compute-1.amazonaws.com:8080/UofC_Roomfinder_Server/rest/route?x1="
-				+ this.stops.features.get(0).geometry.getX() + "&y1=" + this.stops.features.get(0).geometry.getY() + "&z1="
-				+ this.stops.features.get(0).geometry.getZ() + "&x2=" + this.stops.features.get(1).geometry.getX() + "&y2="
-				+ this.stops.features.get(1).geometry.getY() + "&z2=" + this.stops.features.get(1).geometry.getZ() + "&impedance=" + impedance;
-		String result = UrlReader.readFromURL(urlToRequest);
-
-		return result;
-	}
 
 }
