@@ -7,9 +7,9 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
+import com.uofc.roomfinder.entities.Point3D;
 import com.uofc.roomfinder.entities.routing.Route;
 import com.uofc.roomfinder.entities.routing.RouteFeature;
-import com.uofc.roomfinder.entities.routing.RoutePoint;
 
 /**
  * custom serializer for JSON
@@ -59,7 +59,7 @@ public class RouteJsonSerializer implements JsonSerializer<Route> {
 		JsonArray paths = new JsonArray();
 		JsonArray path = new JsonArray();
 		
-		for(RoutePoint point : src.getPath()){
+		for(Point3D point : src.getPath()){
 			JsonArray pointArr = new JsonArray();
 			
 			JsonPrimitive prim = new JsonPrimitive(point.getX());

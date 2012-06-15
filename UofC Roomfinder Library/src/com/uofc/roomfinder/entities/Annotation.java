@@ -35,6 +35,8 @@ public class Annotation implements Serializable {
 	private int has_detail_page;
 	private String webpage;
 	private Date timestamp;
+	
+	private String type;
 
 	// constructor
 	public Annotation() {
@@ -42,7 +44,7 @@ public class Annotation implements Serializable {
 	}
 
 	public Annotation(Long id, String latitude, String longitude, String elevation, String text, String distance, int has_detail_page, String webpage,
-			Date timestamp) {
+			Date timestamp, String type) {
 		super();
 		this.id = id;
 		this.latitude = latitude;
@@ -53,6 +55,7 @@ public class Annotation implements Serializable {
 		this.has_detail_page = has_detail_page;
 		this.webpage = webpage;
 		this.timestamp = timestamp;
+		this.type = type;
 	}
 
 	/**
@@ -192,4 +195,14 @@ public class Annotation implements Serializable {
 		this.webpage = webpage;
 	}
 
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	
+	
 }

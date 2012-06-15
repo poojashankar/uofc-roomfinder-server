@@ -33,6 +33,7 @@ public class AnnotationJsonSerialzer implements JsonSerializer<Annotation> {
 		obj.addProperty("distance", src.getDistance());
 		obj.addProperty("has_detail_page", "" + src.getHas_detail_page());
 		obj.addProperty("webpage", src.getWebpage());
+		obj.addProperty("type", src.getType());
 		
 		//format date
 		obj.addProperty("timestamp", format.format(src.getTimestamp()));

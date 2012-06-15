@@ -8,9 +8,9 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
+import com.uofc.roomfinder.entities.Point3D;
 import com.uofc.roomfinder.entities.routing.Route;
 import com.uofc.roomfinder.entities.routing.RouteFeature;
-import com.uofc.roomfinder.entities.routing.RoutePoint;
 
 /**
  * custom deserializer for JSON Routes
@@ -50,7 +50,7 @@ public class RouteJsonDeserializer implements JsonDeserializer<Route> {
 				long tmpZ = (int) Math.round(zCoordinate * 100); // truncates
 				zCoordinate = tmpZ / 100.0;
 
-				newRoute.getPath().add(new RoutePoint(point.getAsJsonArray().get(0).getAsDouble(), point.getAsJsonArray().get(1).getAsDouble(), zCoordinate));
+				newRoute.getPath().add(new Point3D(point.getAsJsonArray().get(0).getAsDouble(), point.getAsJsonArray().get(1).getAsDouble(), zCoordinate));
 			}
 		} catch (Exception ex) {
 			return newRoute;

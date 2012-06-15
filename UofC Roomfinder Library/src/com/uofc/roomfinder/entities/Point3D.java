@@ -1,17 +1,17 @@
-package com.uofc.roomfinder.entities.routing;
+package com.uofc.roomfinder.entities;
 
-public class RoutePoint {
+public class Point3D {
 	double x;
 	double y;
 	double z;
 
 	// constructor
-	public RoutePoint(double x, double y) {
+	public Point3D(double x, double y) {
 		this(x, y, 0.0);
 	}
 
 	// constructor
-	public RoutePoint(double x, double y, double z) {
+	public Point3D(double x, double y, double z) {
 		super();
 		this.x = x;
 		this.y = y;

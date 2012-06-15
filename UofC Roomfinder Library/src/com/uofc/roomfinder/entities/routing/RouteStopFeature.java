@@ -1,5 +1,7 @@
 package com.uofc.roomfinder.entities.routing;
 
+import com.uofc.roomfinder.entities.Point3D;
+
 /**
  * class for Route querying
  * 
@@ -25,17 +27,17 @@ package com.uofc.roomfinder.entities.routing;
  *
  */
 public class RouteStopFeature {
-	RoutePoint geometry;	
+	Point3D geometry;	
 	RouteStopAttributes attributes;
 	
 	//constructor
-	public RouteStopFeature(RoutePoint geometry, RouteStopAttributes attributes) {
+	public RouteStopFeature(Point3D geometry, RouteStopAttributes attributes) {
 		super();
 		this.geometry = geometry;
 		this.attributes = attributes;
 	}
 
-	public RoutePoint getGeometry() {
+	public Point3D getGeometry() {
 		return geometry;
 	}
 
