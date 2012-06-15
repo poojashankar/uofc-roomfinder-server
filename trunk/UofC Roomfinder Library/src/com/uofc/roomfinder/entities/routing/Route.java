@@ -1,14 +1,12 @@
 package com.uofc.roomfinder.entities.routing;
 
-import static com.uofc.roomfinder.util.Constants.*;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.uofc.roomfinder.util.UrlReader;
-import com.uofc.roomfinder.util.gson.RouteJsonDeserializer;
+import com.uofc.roomfinder.entities.Point3D;
 
 public class Route {
 	private RouteStopList stops;
@@ -17,7 +15,7 @@ public class Route {
 	private double length;
 	private List<RouteFeature> routeFeatures;
 	private List<RouteSegment> routeSegments;
-	private List<RoutePoint> path;
+	private List<Point3D> path;
 	private Vector<Integer> waypointIndicesOfPath;
 
 	private int currentWaypoint;
@@ -30,7 +28,7 @@ public class Route {
 		routeName = "unnamed";
 		routeFeatures = new LinkedList<RouteFeature>();
 		routeSegments = new LinkedList<RouteSegment>();
-		path = new LinkedList<RoutePoint>();
+		path = new LinkedList<Point3D>();
 		stops = new RouteStopList();
 		waypointIndicesOfPath = new Vector<Integer>();
 		currentWaypoint = 0;
@@ -64,11 +62,11 @@ public class Route {
 		this.routeFeatures = routeFeatures;
 	}
 
-	public List<RoutePoint> getPath() {
+	public List<Point3D> getPath() {
 		return path;
 	}
 
-	public void setPath(List<RoutePoint> path) {
+	public void setPath(List<Point3D> path) {
 		this.path = path;
 	}
 

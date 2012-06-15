@@ -34,7 +34,7 @@ public class AnnotationJsonDeserializer implements JsonDeserializer<Annotation> 
 					jsonObj.get("webpage").getAsString(),
 
 					// deserialize date correct
-					(jsonObj.get("timestamp") == null) ? null : format.parse(jsonObj.get("timestamp").getAsString())
+					(jsonObj.get("timestamp") == null) ? null : format.parse(jsonObj.get("timestamp").getAsString()), jsonObj.get("type").getAsString()
 
 			);
 		} catch (ParseException e) {
