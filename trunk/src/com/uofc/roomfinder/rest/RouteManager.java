@@ -21,9 +21,9 @@ import com.esri.arcgisws.PropertySet;
 import com.esri.arcgisws.PropertySetProperty;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.uofc.roomfinder.entities.Point3D;
 import com.uofc.roomfinder.entities.routing.Route;
 import com.uofc.roomfinder.entities.routing.RouteFeature;
-import com.uofc.roomfinder.entities.routing.RoutePoint;
 import com.uofc.roomfinder.entities.routing.RouteStopAttributes;
 import com.uofc.roomfinder.entities.routing.RouteStopFeature;
 import com.uofc.roomfinder.util.Constants;
@@ -44,8 +44,8 @@ public class RouteManager {
 		// RoutePoint end = new RoutePoint(701012.8757, 5662665.3092, 16.0);
 
 		// create points from params
-		RoutePoint start = new RoutePoint(x1, y1, z1);
-		RoutePoint end = new RoutePoint(x2, y2, z2);
+		Point3D start = new Point3D(x1, y1, z1);
+		Point3D end = new Point3D(x2, y2, z2);
 
 		// get route
 
@@ -62,7 +62,7 @@ public class RouteManager {
 			double alternatingOffset = Math.pow(-1, routeCounter) * ((routeCounter + 1) / 2);
 
 			System.out.println("alternate: " + alternatingOffset);
-			RoutePoint newStart = new RoutePoint(start.getX() + alternatingOffset, start.getY() + alternatingOffset, start.getZ());
+			Point3D newStart = new Point3D(start.getX() + alternatingOffset, start.getY() + alternatingOffset, start.getZ());
 			newRoute = getSoapRoute(newStart, end, impedance);
 			routeCounter++;
 		}
@@ -89,7 +89,7 @@ public class RouteManager {
 	 * @param impedanceAttribute
 	 * @return
 	 */
-	public static Route getSoapRoute(RoutePoint start, RoutePoint destination, String impedanceAttribute) {
+	public static Route getSoapRoute(Point3D start, Point3D destination, String impedanceAttribute) {
 
 		Route newRoute = new Route();
 
@@ -129,7 +129,7 @@ public class RouteManager {
 		for (Point point : resultLine.getPathArray()[0].getPointArray()) {
 			PointN pointN = (PointN) point;
 
-			newRoute.getPath().add(new RoutePoint(pointN.getX(), pointN.getY(), pointN.getZ()));
+			newRoute.getPath().add(new Point3D(pointN.getX(), pointN.getY(), pointN.getZ()));
 			System.out.println("x: " + pointN.getX() + ", y: " + pointN.getY() + ", z: " + pointN.getZ() + "<br>");
 		}
 

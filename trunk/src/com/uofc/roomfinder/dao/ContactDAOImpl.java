@@ -56,23 +56,30 @@ public class ContactDAOImpl implements ContactDAO {
 		String building = null;
 		String room = null;
 
-		// split letters and numbers (ICT550 -> ICT, 550)
-		if (searchString.split(regex).length == 2) {
-			building = searchString.split(regex)[0];
-			room = searchString.split(regex)[1];
-		} else if (searchString.split(regex).length == 1 && searchString.replace(" ", "").split(regex).length == 2) {
-			// split letters and numbers (ICT 550 -> ICT, 550)
-			building = searchString.replace(" ", "").split(regex)[0];
-			room = searchString.replace(" ", "").split(regex)[1];
+		if (searchString.split(" ").length == 2) {
+			building = searchString.split(" ")[0];
+			room = searchString.split(" ")[1];
+		} else {
+
+			// split letters and numbers (ICT550 -> ICT, 550)
+			if (searchString.split(regex).length == 2) {
+				building = searchString.split(regex)[0];
+				room = searchString.split(regex)[1];
+			} else if (searchString.split(regex).length == 1 && searchString.replace(" ", "").split(regex).length == 2) {
+				// split letters and numbers (ICT 550 -> ICT, 550)
+				building = searchString.replace(" ", "").split(regex)[0];
+				room = searchString.replace(" ", "").split(regex)[1];
+			}
 		}
 
 		try {
 			// get JSON from server parse it into JsonObject
+			System.out.println("building: " + building + " room: " + room);
 			String jsonString = this.getJsonFromArcGisLayer(building, room);
 			JsonParser parser = new JsonParser();
 			JsonObject jsonObject = (JsonObject) parser.parse(jsonString);
-			
-			//create contact list with one contact which has only this room number
+
+			// create contact list with one contact which has only this room number
 			room = jsonObject.get("features").getAsJsonArray().get(0).getAsJsonObject().get("attributes").getAsJsonObject().get("SDE.DBO.Building_Room.RM_ID")
 					.getAsString();
 			building = jsonObject.get("features").getAsJsonArray().get(0).getAsJsonObject().get("attributes").getAsJsonObject()
@@ -86,9 +93,9 @@ public class ContactDAOImpl implements ContactDAO {
 			contacts.add(contact);
 			return contacts;
 		} catch (Exception ex) {
-			//if there is no match on server -> return empty list
+			// if there is no match on server -> return empty list
 			return new ContactList();
-		}		
+		}
 	}
 
 	/**
@@ -104,7 +111,7 @@ public class ContactDAOImpl implements ContactDAO {
 		final String ARCGIS_BUILDING_RETURN_FIELDS = "SDE.DBO.Building_Room.RM_ID,+SDE.DBO.Building_Room.BLD_ID";
 		final String ARCGIS_RETURN_GEOMETRY = "false";
 
-		String whereClause = "SDE.DBO.Building_Room.RM_ID='" + room + "' AND SDE.DBO.Building_Room.BLD_ID='" + building + "'";
+		String whereClause = "SDE.DBO.Building_Room.RM_ID like '%" + room + "%' AND SDE.DBO.Building_Room.BLD_ID like '%" + building + "%'";
 
 		// build up URL
 		String queryUrl = ARCGIS_BUILDING_MAPSERVER + ARCGIS_BUILDING_LAYER + "/";

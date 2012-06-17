@@ -1,10 +1,7 @@
 package com.uofc.roomfinder.entities.routing;
 
-import junit.framework.Assert;
-
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Test;
 
 public class RouteTest {
 
@@ -29,7 +26,7 @@ public class RouteTest {
 
 	//@Test
 	//new version is without REST service -> no need of JSON deserialization
-	public void getRouteStopsJSONtest() {
+	/*public void getRouteStopsJSONtest() {
 		Route testRoute = new Route(new RoutePoint(START_X, START_Y), new RoutePoint(END_X, END_Y));
 		Assert.assertEquals(JSON_STRING.replace(" ", ""), testRoute.getStopsAsJsonString().replace("\n", "").replace(" ", ""));
 	}
@@ -73,6 +70,6 @@ public class RouteTest {
 		Assert.assertFalse(testRoute.getRouteFeatures().get(2).text.equals(""));
 		Assert.assertTrue(testRoute.getRouteFeatures().get(2).getLength() != 0);		
 	}
-	
+	*/
 
 }

@@ -84,7 +84,7 @@ public class ContactDAOImplTest {
 		assertEquals(result.get(0).getSurName(), "Maurer");
 		assertEquals(result.get(0).getRoomNumber().get(0), "ICT550");
 	}
-	
+
 	@Test
 	public void findContactByBuildingAndRoom3() {
 		List<Contact> result = contactDao.findContactsBuildingAndRoom("Information & Communication Technology 550 ");
@@ -93,7 +93,7 @@ public class ContactDAOImplTest {
 		assertEquals(result.get(0).getSurName(), "Maurer");
 		assertEquals(result.get(0).getRoomNumber().get(0), "ICT550");
 	}
-	
+
 	@Test
 	public void findContactByBuildingAndRoom4() {
 		List<Contact> result = contactDao.findContactsBuildingAndRoom("information communication 550 ");
@@ -102,42 +102,55 @@ public class ContactDAOImplTest {
 		assertEquals(result.get(0).getSurName(), "Maurer");
 		assertEquals(result.get(0).getRoomNumber().get(0), "ICT550");
 	}
-	
+
 	@Test
 	public void findContactByBuildingAndRoom5() {
 		List<Contact> result = contactDao.findContactsBuildingAndRoom("earth science 550 ");
 
 		assertEquals(result.get(0).getRoomNumber().get(0), "ES550");
 	}
-	
+
 	@Test
 	public void findContactByBuildingAndRoom6() {
 		List<Contact> result = contactDao.findContactsBuildingAndRoom("math 680");
 
 		assertEquals(result.get(0).getRoomNumber().get(0), "MS680");
 	}
-	
+
 	@Test
 	public void findContactByBuildingAndRoom7() {
-		//also rooms without contact information should be found (search on ArcGIS server)
+		// also rooms without contact information should be found (search on ArcGIS server)
 		List<Contact> result = contactDao.findContacts("ict117");
 
 		assertEquals(result.get(0).getRoomNumber().get(0), "ICT117");
 	}
-	
+
 	@Test
 	public void findContactByBuildingAndRoom8() {
-		//also rooms without contact information should be found (search on ArcGIS server)
+		// also rooms without contact information should be found (search on ArcGIS server)
 		List<Contact> result = contactDao.findContacts("ict 117");
 
 		assertEquals(result.get(0).getRoomNumber().get(0), "ICT117");
 	}
-	
+
 	@Test
 	public void findContactByBuildingAndRoom9() {
 		List<Contact> result = contactDao.findContacts("ict 1178");
-
 		assertTrue(result.size() == 0);
+	}
+
+	//room number with leading letter
+	@Test
+	public void findContactByBuildingAndRoom10() {
+		List<Contact> result = contactDao.findContacts("hs g344");
+		assertEquals(result.get(0).getRoomNumber().get(0), "HSG344");
+	}
+	
+	@Test
+	public void findContactByBuildingAndRoom11() {
+		List<Contact> result = contactDao.findContacts("hs 344");
+		assertTrue(result.get(0).getRoomNumber().get(0).contains("HS"));
+		assertTrue(result.get(0).getRoomNumber().get(0).contains("344"));
 	}
 
 }
