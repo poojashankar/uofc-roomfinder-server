@@ -109,7 +109,7 @@ public class BuildingDAOImpl extends GenericDAOImpl<Building, Long> implements B
 	 */
 	@Override
 	public int updateBuildingTable() {
-		String whereClause = "SDE.DBO.Building_Info.BLDG_ID like 'ICT'"; // TODO: set to %
+		String whereClause = "SDE.DBO.Building_Info.BLDG_ID like '%'";
 		String result = getJsonFromArcGisLayer(whereClause);
 		// System.out.println(result);
 
@@ -146,7 +146,7 @@ public class BuildingDAOImpl extends GenericDAOImpl<Building, Long> implements B
 		// build up URL
 		String queryUrl = ARCGIS_BUILDING_MAPSERVER + ARCGIS_BUILDING_LAYER + "/";
 		queryUrl += "query?text=&geometry=&geometryType=esriGeometryPoint&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&objectIds=&time=&returnCountOnly=false&returnIdsOnly=false&returnGeometry="
-				+ returnGeometry + "&maxAllowableOffset=&outSR=";
+				+ returnGeometry + "&maxAllowableOffset=&outSR=4326";
 		queryUrl += "&where=" + whereClause;
 		queryUrl += "&outFields=" + ARCGIS_BUILDING_RETURN_FIELDS;
 		queryUrl += "&f=pjson";
@@ -393,14 +393,15 @@ public class BuildingDAOImpl extends GenericDAOImpl<Building, Long> implements B
 			// fill DTO
 			while (rs.next()) {
 				annotation = new Annotation();
-				annotation.setLatitude(rs.getString("CENTERX"));
-				annotation.setLongitude(rs.getString("CENTERY"));
+				annotation.setLongitude(rs.getString("CENTERX"));
+				annotation.setLatitude(rs.getString("CENTERY"));
 				annotation.setText(rs.getString("BUILDING_NAME"));
 				annotation.setDistance("0");
 				annotation.setElevation("0");
 				annotation.setHas_detail_page(0);
 				annotation.setWebpage("");
 				annotation.setTimestamp(new Date());
+				annotation.setType("POI"); //buildings = POI
 
 				annotationPackage.addAnnotation(annotation);
 			}

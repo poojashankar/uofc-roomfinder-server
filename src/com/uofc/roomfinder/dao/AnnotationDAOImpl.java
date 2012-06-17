@@ -228,6 +228,11 @@ public class AnnotationDAOImpl extends GenericDAOImpl<Annotation, Long> implemen
 			// fill DTO
 			while (rs.next()) {
 				annotation = new Annotation(rs);
+				
+				if (category.equals("graffiti")){
+					annotation.setType("GRAFFITI");
+				}
+				
 				annotationPackage.addAnnotation(annotation);
 			}
 

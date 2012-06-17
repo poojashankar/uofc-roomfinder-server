@@ -32,9 +32,9 @@ public class WifiAccessPointDAOImpl implements WifiAccessPointDAO {
 
 			// query sql
 			String sql = "SELECT * FROM (";
-			sql += " SELECT name, mac1 mac, channel1 channel, power1 power, latitude, longitude, altitude FROM tbl_wifi_access_points";
+			sql += " SELECT name, mac1 mac, channel1 channel, power1 power, latitude, longitude, ifNull(altitude, -1000) altitude FROM tbl_wifi_access_points";
 			sql += " UNION";
-			sql += " SELECT name, mac2 mac, channel2 channel, power2 power, latitude, longitude, altitude FROM tbl_wifi_access_points";
+			sql += " SELECT name, mac2 mac, channel2 channel, power2 power, latitude, longitude, ifNull(altitude, -1000) altitude  FROM tbl_wifi_access_points";
 			sql += " ) wifi_aps";
 			sql += " WHERE mac = ?";
 
