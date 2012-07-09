@@ -11,15 +11,15 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import com.uofc.roomfinder.dao.AnnotationDAO;
-import com.uofc.roomfinder.dao.AnnotationDAOImpl;
-import com.uofc.roomfinder.dao.BuildingDAOImpl;
+import com.uofc.roomfinder.dao.AnnotationDaoMySQL;
+import com.uofc.roomfinder.dao.BuildingDAOMySQL;
 import com.uofc.roomfinder.entities.Annotation;
 import com.uofc.roomfinder.entities.AnnotationList;
 
 @Path("/annotation")
 public class ArDataManager {
 
-	AnnotationDAO annotationDao = new AnnotationDAOImpl();
+	AnnotationDAO annotationDao = new AnnotationDaoMySQL();
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -70,15 +70,16 @@ public class ArDataManager {
 			@QueryParam("next_text") String next_text, @QueryParam("dest_text") String dest_text) {
 
 		System.out.println(dest_text);
-		
+
 		// next waypoint annotation
-		Annotation next_annotation = new Annotation(0l, next_y, next_x, "" + 0, next_text, "", 0, null, new Date());
+		Annotation next_annotation = new Annotation(3989l, next_y, next_x, "" + 0, next_text, "", 0, null, new Date());
 		next_annotation.setType("POI");
-		
-		Annotation arrow_annotation = new Annotation(0l, next_y, next_x, "" + 0, next_text, "", 0, null, new Date());
+
+		//longitude has to be slightly different... otherwise marker would not get added because its to similar...
+		Annotation arrow_annotation = new Annotation(2121212l, next_y, ""+ (Double.parseDouble(next_x)+0.00000001), "" + 0, next_text, "", 0, null, new Date());
 		next_annotation.setType("ARROW");
 
-		Annotation dest_annotation = new Annotation(1l, dest_y, dest_x, "" + 0, dest_text, "", 0, null, new Date());
+		Annotation dest_annotation = new Annotation(13332l, dest_y, dest_x, "" + 0, dest_text.replace("Route to ", ""), "", 0, null, new Date());
 		dest_annotation.setType("SPECIAL_POI");
 
 		AnnotationList annotationPackage = new AnnotationList();
@@ -119,7 +120,7 @@ public class ArDataManager {
 		AnnotationList annotationList = new AnnotationList();
 
 		if (category.equals("buildings")) {
-			annotationList = new BuildingDAOImpl().getAllBuildingsAsAnnotationList();
+			annotationList = new BuildingDAOMySQL().getAllBuildingsAsAnnotationList();
 		} else {
 
 			// get annotation package
@@ -166,7 +167,7 @@ public class ArDataManager {
 		newAnno.setWebpage("");
 		newAnno.setType("GRAFFITI");
 
-		System.out.println(new AnnotationDAOImpl().save(newAnno));
+		System.out.println(new AnnotationDaoMySQL().save(newAnno));
 
 		return "successful";
 	}

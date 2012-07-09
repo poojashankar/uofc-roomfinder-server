@@ -25,5 +25,6 @@
 	<classpathentry kind="lib" path="/Users/benjaminlautenschlaeger/Desktop/soap libs/lib/jaxb-api.jar"/>
 	<classpathentry kind="lib" path="/Users/benjaminlautenschlaeger/Desktop/soap libs/lib/jaxb-impl.jar"/>
 	<classpathentry kind="lib" path="/Users/benjaminlautenschlaeger/Desktop/soap libs/lib/jsr173_1.0_api.jar"/>
+	<classpathentry kind="lib" path="/Users/benjaminlautenschlaeger/Desktop/roomfinder stuff/mysql-connector-java-5.1.20/mysql-connector-java-5.1.20-bin.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

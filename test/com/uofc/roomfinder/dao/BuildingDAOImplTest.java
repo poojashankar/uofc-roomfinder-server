@@ -18,7 +18,7 @@ public class BuildingDAOImplTest {
 
 	@Before
 	public void setUp() throws Exception {
-		buildingDao = new BuildingDAOImpl();
+		buildingDao = new BuildingDAOMySQL();
 	}
 
 	@After
@@ -27,7 +27,7 @@ public class BuildingDAOImplTest {
 
 	@Test
 	public void updateTableTest() {
-		buildingDao.updateBuildingTable();
+		new BuildingDAOMySQL().updateBuildingTable();
 
 	}
 

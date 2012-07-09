@@ -22,7 +22,7 @@ public class UserDAOImplTest {
 
 	@Before
 	public void setUp() throws Exception {
-		userDao = new UserDAOImpl();
+		userDao = new UserDAOMySQL();
 
 		Random generator = new Random();
 		int r = (int) (generator.nextDouble() * 100000);

@@ -25,7 +25,7 @@ public class UserLocationDAOImplTest {
 
 	@Before
 	public void setUp() throws Exception {
-		userLocationDao = new UserLocationDAOImpl();
+		userLocationDao = new UserLocationDaoMySQL();
 
 		Random generator = new Random();
 		int r = (int) (generator.nextDouble() * 100000);

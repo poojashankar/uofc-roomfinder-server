@@ -12,7 +12,7 @@ import javax.ws.rs.core.MediaType;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.uofc.roomfinder.dao.WifiAccessPointDAO;
-import com.uofc.roomfinder.dao.WifiAccessPointDAOImpl;
+import com.uofc.roomfinder.dao.WifiAccessPointDaoMySQL;
 import com.uofc.roomfinder.entities.Point3D;
 import com.uofc.roomfinder.entities.WifiAccessPoint;
 import com.uofc.roomfinder.util.Vector3d;
@@ -35,7 +35,7 @@ public class LocationManager {
 		String[] powerLevelArr = powerLevels.split(",");
 		String[] frequenciesArr = frequencies.split(",");
 
-		WifiAccessPointDAO wifiDao = new WifiAccessPointDAOImpl();
+		WifiAccessPointDAO wifiDao = new WifiAccessPointDaoMySQL();
 		WifiAccessPoint wifiAP = null;
 		List<WifiAccessPoint> wifiApList = new ArrayList<WifiAccessPoint>();
 

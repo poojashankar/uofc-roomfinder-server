@@ -130,7 +130,7 @@ public class RouteManager {
 			PointN pointN = (PointN) point;
 
 			newRoute.getPath().add(new Point3D(pointN.getX(), pointN.getY(), pointN.getZ()));
-			System.out.println("x: " + pointN.getX() + ", y: " + pointN.getY() + ", z: " + pointN.getZ() + "<br>");
+			System.out.println("x: " + pointN.getX() + ", y: " + pointN.getY() + ", z: " + pointN.getZ());
 		}
 
 		// get path directions
