@@ -3,8 +3,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-
 import org.apache.commons.dbutils.DbUtils;
 
 /**
@@ -73,7 +71,7 @@ public class MySqlHandler {
 
 		try {
 
-			String sql = "SELECT * FROM tbl_wifi_access_points WHERE latitude IS NULL";
+			String sql = "SELECT * FROM tbl_wifi_access_points";// WHERE latitude IS NULL";
 			prepStmt = connection.prepareStatement(sql);
 
 			// exec stmt
@@ -89,7 +87,7 @@ public class MySqlHandler {
 					i++;
 				} else {
 					System.out.println(rs.getString(COL_NAME + 1) + " - " + tmp);
-					updateLocationInDb(connection, rs.getString(COL_MAC1 + 1), "" + tmp.x, "" + tmp.y, "" + tmp.z);
+					updateLocationInDb(connection, rs.getString(COL_MAC1 + 1), "" + tmp.y, "" + tmp.x, "" + tmp.z);
 				}
 
 			}
