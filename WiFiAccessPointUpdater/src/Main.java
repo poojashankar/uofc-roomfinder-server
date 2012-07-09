@@ -6,7 +6,6 @@ import java.sql.Connection;
 import org.apache.commons.dbutils.DbUtils;
 
 import com.esri.arcgisws.Envelope;
-import com.esri.arcgisws.Geometry;
 import com.esri.arcgisws.PointB;
 
 public class Main {
