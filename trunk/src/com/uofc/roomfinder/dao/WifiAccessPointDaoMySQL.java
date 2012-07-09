@@ -13,7 +13,7 @@ import com.uofc.roomfinder.util.ConnectionFactory;
  * 
  * @author lauteb
  */
-public class WifiAccessPointDAOImpl implements WifiAccessPointDAO {
+public class WifiAccessPointDaoMySQL implements WifiAccessPointDAO {
 
 	/**
 	 * returns a single access point by his mac address

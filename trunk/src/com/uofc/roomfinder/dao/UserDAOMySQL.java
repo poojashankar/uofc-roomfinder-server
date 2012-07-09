@@ -27,7 +27,7 @@ import com.uofc.roomfinder.util.gson.BuildingListJsonDeserializer;
  * 
  * @author lauteb
  */
-public class UserDAOImpl implements UserDAO {
+public class UserDAOMySQL implements UserDAO {
 
 	@Override
 	public User getUser(String userName) {

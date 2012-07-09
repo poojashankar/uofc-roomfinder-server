@@ -14,6 +14,4 @@ public interface BuildingDAO extends GenericDAO<Building, Long>  {
 
 	public Building findByAbbreviation(String abbreviation);
 	
-	public int updateBuildingTable();	
-	
 }

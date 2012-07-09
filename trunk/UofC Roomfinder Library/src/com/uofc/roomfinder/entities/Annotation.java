@@ -16,8 +16,8 @@ import com.uofc.roomfinder.util.gson.AnnotationJsonSerialzer;
  * 
  * the JSON representation of this class should look like: { "id": "2821", "lat": "46.49396", "lng": "11.2088", "elevation": "1865", "title": "Gantkofel",
  * "distance": "9.771", "has_detail_page": "0", "webpage": "" },
- *  
- * @author lauteb 
+ * 
+ * @author lauteb
  */
 public class Annotation implements Serializable {
 
@@ -35,7 +35,7 @@ public class Annotation implements Serializable {
 	private int has_detail_page;
 	private String webpage;
 	private Date timestamp;
-	
+
 	private String type;
 
 	// constructor
@@ -43,6 +43,20 @@ public class Annotation implements Serializable {
 		webpage = "";
 	}
 
+	/**
+	 * constructor setting each field with parameter
+	 * 
+	 * @param id
+	 * @param latitude
+	 * @param longitude
+	 * @param elevation
+	 * @param text
+	 * @param distance
+	 * @param has_detail_page
+	 * @param webpage
+	 * @param timestamp
+	 * @param type
+	 */
 	public Annotation(Long id, String latitude, String longitude, String elevation, String text, String distance, int has_detail_page, String webpage,
 			Date timestamp, String type) {
 		super();
@@ -56,6 +70,24 @@ public class Annotation implements Serializable {
 		this.webpage = webpage;
 		this.timestamp = timestamp;
 		this.type = type;
+	}
+
+	/**
+	 * constructor with default type = POI
+	 * 
+	 * @param id
+	 * @param latitude
+	 * @param longitude
+	 * @param elevation
+	 * @param text
+	 * @param distance
+	 * @param has_detail_page
+	 * @param webpage
+	 * @param timestamp
+	 */
+	public Annotation(Long id, String latitude, String longitude, String elevation, String text, String distance, int has_detail_page, String webpage,
+			Date timestamp) {
+		this(id, latitude, longitude, elevation, text, distance, has_detail_page, webpage, timestamp, "POI");
 	}
 
 	/**
@@ -99,7 +131,7 @@ public class Annotation implements Serializable {
 		this.distance = newAnno.getDistance();
 		this.has_detail_page = newAnno.getHas_detail_page();
 		this.webpage = newAnno.getWebpage();
-		this.timestamp = (newAnno.getTimestamp()==null)?null:newAnno.getTimestamp();
+		this.timestamp = (newAnno.getTimestamp() == null) ? null : newAnno.getTimestamp();
 	}
 
 	/**
@@ -203,6 +235,4 @@ public class Annotation implements Serializable {
 		this.type = type;
 	}
 
-	
-	
 }

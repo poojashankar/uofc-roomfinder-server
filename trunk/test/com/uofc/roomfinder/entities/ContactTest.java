@@ -10,7 +10,7 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 import com.uofc.roomfinder.dao.ContactDAO;
-import com.uofc.roomfinder.dao.ContactDAOImpl;
+import com.uofc.roomfinder.dao.ContactDaoLdap;
 
 public class ContactTest {
 
@@ -25,7 +25,7 @@ public class ContactTest {
 
 	@Test
 	public void testGetJSON() {
-		ContactDAO contactDao = new ContactDAOImpl();
+		ContactDAO contactDao = new ContactDaoLdap();
 		List<Contact> result = contactDao.findContactsByName("Frank Maurer");
 
 		assertTrue(result.get(0).toJsonString().contains(PRENAME));

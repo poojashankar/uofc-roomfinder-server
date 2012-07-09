@@ -15,7 +15,7 @@ public class AnnotationDAOImplTest {
 
 	@Before
 	public void setUp() throws Exception {
-		annotationDAO = new AnnotationDAOImpl();
+		annotationDAO = new AnnotationDaoMySQL();
 	}
 
 	@After

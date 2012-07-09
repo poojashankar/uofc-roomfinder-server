@@ -44,7 +44,7 @@ public class UrlReader {
 					rd.close();
 			} catch (IOException e) {
 			}
-			
+
 			try {
 				if (is != null)
 					is.close();
@@ -62,20 +62,20 @@ public class UrlReader {
 
 		// query params set?
 		String query = null;
-		if (path.indexOf('?') != -1) {				
-			query = path.substring(path.indexOf('?')+1, path.length());
+		if (path.indexOf('?') != -1) {
+			query = path.substring(path.indexOf('?') + 1, path.length());
 			path = path.split("\\?")[0];
 		}
 
 		// cut off port (if set)
 		int port = 80;
 		if (hostname.indexOf(':') != -1) {
-			port = Integer.parseInt(hostname.substring(hostname.indexOf(':')+1, hostname.length()));
+			port = Integer.parseInt(hostname.substring(hostname.indexOf(':') + 1, hostname.length()));
 			hostname = hostname.substring(0, hostname.indexOf(':'));
 		}
-		
-		//System.out.println("splitted: " + hostname + "    :    " + port + " - " + path + "    ?     " + query);
-		//System.out.println(new URI("http", null, hostname, 80, path, query, null).toURL());
+
+		// System.out.println("splitted: " + hostname + "    :    " + port + " - " + path + "    ?     " + query);
+		// System.out.println(new URI("http", null, hostname, 80, path, query, null).toURL());
 
 		// open stream for URL
 		return new URI("http", null, hostname, port, path, query, null);

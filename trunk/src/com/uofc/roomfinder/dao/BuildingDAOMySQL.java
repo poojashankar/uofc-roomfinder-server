@@ -34,7 +34,7 @@ import com.uofc.roomfinder.util.gson.BuildingListJsonDeserializer;
  * 
  * @author lauteb
  */
-public class BuildingDAOImpl extends GenericDAOImpl<Building, Long> implements BuildingDAO {
+public class BuildingDAOMySQL implements BuildingDAO, GenericDAO<Building, Long> {
 
 	public static final String BUILDING_NAME_COL = "SDE.DBO.Building_Info.BLDG_NAME";
 	public static final String BUILDING_ADDRESS_COL = "SDE.DBO.Building_Info.ADDRESS1";
@@ -107,7 +107,6 @@ public class BuildingDAOImpl extends GenericDAOImpl<Building, Long> implements B
 	/**
 	 * loads all buildings out of the ArcGIS MapServer building layer and copies them into the mysql database
 	 */
-	@Override
 	public int updateBuildingTable() {
 		String whereClause = "SDE.DBO.Building_Info.BLDG_ID like '%'";
 		String result = getJsonFromArcGisLayer(whereClause);
@@ -401,7 +400,7 @@ public class BuildingDAOImpl extends GenericDAOImpl<Building, Long> implements B
 				annotation.setHas_detail_page(0);
 				annotation.setWebpage("");
 				annotation.setTimestamp(new Date());
-				annotation.setType("POI"); //buildings = POI
+				annotation.setType("POI"); // buildings = POI
 
 				annotationPackage.addAnnotation(annotation);
 			}

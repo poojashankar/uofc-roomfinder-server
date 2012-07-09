@@ -7,8 +7,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.uofc.roomfinder.dao.ContactDAO;
-import com.uofc.roomfinder.dao.ContactDAOImpl;
-import com.uofc.roomfinder.dao.UserDAOImpl;
+import com.uofc.roomfinder.dao.ContactDaoLdap;
+import com.uofc.roomfinder.dao.UserDAOMySQL;
 import com.uofc.roomfinder.entities.ContactList;
 
 @Path("/friend")
@@ -20,7 +20,7 @@ public class FriendManager {
 	public String addFriend(@PathParam("user_name") String userName, @PathParam("friend_name") String friendName) {
 
 		// search directory for names and buildings
-		boolean check = new UserDAOImpl().addFriend(userName, friendName);
+		boolean check = new UserDAOMySQL().addFriend(userName, friendName);
 
 		// return result
 		if (check)

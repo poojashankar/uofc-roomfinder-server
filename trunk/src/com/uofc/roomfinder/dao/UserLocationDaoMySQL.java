@@ -29,7 +29,7 @@ import com.uofc.roomfinder.util.gson.BuildingListJsonDeserializer;
  * 
  * @author lauteb
  */
-public class UserLocationDAOImpl implements UserLocationDAO {
+public class UserLocationDaoMySQL implements UserLocationDAO {
 
 	@Override
 	public UserLocation getLastKnownPosition(String userName) {
@@ -44,7 +44,9 @@ public class UserLocationDAOImpl implements UserLocationDAO {
 			conn = ConnectionFactory.getInstance().getConnection();
 
 			// insert sql
-			String sql = "SELECT user, lat, lng, alt, timestamp FROM tbl_user_locations WHERE user = ? ORDER BY timestamp DESC";
+			String sql = "SELECT user, lat, lng, alt, timestamp " +
+					"FROM tbl_user_locations " +
+					"WHERE user = ? ORDER BY timestamp DESC";
 			prepStmt = conn.prepareStatement(sql);
 			System.out.println(sql + userName);
 			prepStmt.setString(1, userName);			

@@ -13,7 +13,7 @@ public class WifiAccessPointDAOImplTest {
 
 	@Before
 	public void setUp() throws Exception {
-		wifiDAO = new WifiAccessPointDAOImpl();
+		wifiDAO = new WifiAccessPointDaoMySQL();
 	}
 
 	@Test

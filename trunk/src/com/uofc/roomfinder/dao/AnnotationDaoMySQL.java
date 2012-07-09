@@ -18,7 +18,7 @@ import com.uofc.roomfinder.util.ConnectionFactory;
  * 
  * @author lauteb
  */
-public class AnnotationDAOImpl extends GenericDAOImpl<Annotation, Long> implements AnnotationDAO {
+public class AnnotationDaoMySQL implements AnnotationDAO, GenericDAO<Annotation, Long> {
 
 	/**
 	 * save the given annotation to DB
@@ -58,7 +58,7 @@ public class AnnotationDAOImpl extends GenericDAOImpl<Annotation, Long> implemen
 				annotation.setId(rs.getLong(1));
 			}
 			return true;
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
@@ -88,8 +88,8 @@ public class AnnotationDAOImpl extends GenericDAOImpl<Annotation, Long> implemen
 
 			// exec stmt
 			int result = prepStmt.executeUpdate();
-			
-			if (result > 0){
+
+			if (result > 0) {
 				return true;
 			}
 
@@ -228,11 +228,11 @@ public class AnnotationDAOImpl extends GenericDAOImpl<Annotation, Long> implemen
 			// fill DTO
 			while (rs.next()) {
 				annotation = new Annotation(rs);
-				
-				if (category.equals("graffiti")){
+
+				if (category.equals("graffiti")) {
 					annotation.setType("GRAFFITI");
 				}
-				
+
 				annotationPackage.addAnnotation(annotation);
 			}
 
@@ -247,7 +247,6 @@ public class AnnotationDAOImpl extends GenericDAOImpl<Annotation, Long> implemen
 
 		return annotationPackage;
 	}
-	
 
 	@Override
 	public List<Annotation> findNearbyAnnotations(Coordinate currentPosition) {
