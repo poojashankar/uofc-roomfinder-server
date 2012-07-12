@@ -10,7 +10,6 @@
 			<groupId>com.sun.jersey.jersey-test-framework</groupId>
 			<artifactId>jersey-test-framework-grizzly2</artifactId>
 			<version>${project.version}</version>
-		</dependency>
-		
+		</dependency>		
 	</dependencies>
 </project>

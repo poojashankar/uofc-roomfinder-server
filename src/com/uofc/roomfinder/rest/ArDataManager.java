@@ -140,15 +140,18 @@ public class ArDataManager {
 		// get annotation package
 		AnnotationList annotationPackage = new AnnotationList();
 
-		Annotation anno = new Annotation(1l, "51.078670", "-114.130440", "0", "Phil @ MacHall", "distance", 0, "", new Date(), "FRIEND");
+		Annotation anno = new Annotation(1l, "51.078670", "-114.130440", "0", "Patrick", "distance", 0, "", new Date(), "FRIEND");
 		annotationPackage.addAnnotation(anno);
 
-		anno = new Annotation(2l, "51.079876", "-114.125408", "4", "Jonathan @ Biology (2nd floor)", "distance", 0, "", new Date(), "FRIEND");
+		anno = new Annotation(2l, "51.079876", "-114.125408", "4", "Arlo", "distance", 0, "", new Date(), "FRIEND");
 		annotationPackage.addAnnotation(anno);
 
-		anno = new Annotation(3l, "51.079949", "-114.127964", "20", "Tim @ MS (6th floor)", "distance", 0, "", new Date(), "FRIEND");
+		anno = new Annotation(3l, "51.079949", "-114.127964", "20", "Daniel", "distance", 0, "", new Date(), "FRIEND");
 		annotationPackage.addAnnotation(anno);
-
+		
+		anno = new Annotation(4l, "51.078859", "-114.13171", "20", "Zabed", "distance", 0, "", new Date(), "FRIEND");
+		annotationPackage.addAnnotation(anno);
+		
 		return annotationPackage.toJsonString();
 	}
 
