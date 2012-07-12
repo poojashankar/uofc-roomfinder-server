@@ -396,7 +396,7 @@ public class BuildingDAOMySQL implements BuildingDAO, GenericDAO<Building, Long>
 				annotation.setLatitude(rs.getString("CENTERY"));
 				annotation.setText(rs.getString("BUILDING_NAME"));
 				annotation.setDistance("0");
-				annotation.setElevation("0");
+				annotation.setElevation("1000");
 				annotation.setHas_detail_page(0);
 				annotation.setWebpage("");
 				annotation.setTimestamp(new Date());
